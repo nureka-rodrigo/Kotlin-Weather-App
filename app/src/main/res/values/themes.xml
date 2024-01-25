@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.KotlinWeatherApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryDark">@color/background_color</item>
     </style>
 
     <style name="Theme.KotlinWeatherApp" parent="Base.Theme.KotlinWeatherApp" />
