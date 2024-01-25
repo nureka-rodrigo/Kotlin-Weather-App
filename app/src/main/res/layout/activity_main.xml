@@ -75,7 +75,8 @@
                     android:id="@+id/linearLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:id="@+id/linearLayout2"
@@ -208,7 +209,7 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginBottom="5dp"
@@ -233,7 +234,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="16dp"
-                tools:context=".MainActivity">
+                tools:context=".MainActivity"
+                android:baselineAligned="false">
 
                 <!-- Left Section -->
                 <LinearLayout
