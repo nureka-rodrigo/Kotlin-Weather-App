@@ -331,7 +331,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="S02: 1.1"
+                        android:text="S0\u2082: 1.1"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
@@ -340,7 +340,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="NO2: 6.0"
+                        android:text="NO\u2082: 6.0"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
@@ -349,7 +349,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="O3: 18.5"
+                        android:text="O\u2083: 18.5"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
