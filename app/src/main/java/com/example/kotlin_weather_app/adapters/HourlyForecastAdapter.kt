@@ -10,7 +10,7 @@ import com.example.kotlin_weather_app.R
 
 data class WeatherItem(val title: String, val iconResId: Int, val temperature: String)
 
-class HourlyForecastAdapter(private val itemList: List<WeatherItem>) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>() {
+class HourlyForecastAdapter(private val itemList: MutableList<WeatherItem>) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.textView12)
@@ -34,4 +34,11 @@ class HourlyForecastAdapter(private val itemList: List<WeatherItem>) : RecyclerV
     override fun getItemCount(): Int {
         return itemList.size
     }
+
+    fun setItems(weatherItems: MutableList<WeatherItem>) {
+        itemList.clear()
+        itemList.addAll(weatherItems)
+        notifyDataSetChanged()
+    }
 }
+
