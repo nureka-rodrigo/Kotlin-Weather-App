@@ -1,38 +1,65 @@
 <resources>
+    <!-- Application name -->
     <string name="app_name">Weather-X</string>
 
+    <!-- City name placeholder -->
     <string name="city">%1$s</string>
+    <!-- Weather description placeholder -->
     <string name="weather_description">%1$s</string>
+    <!-- Description for current weather icon -->
     <string name="current_weather_description">Current weather icon</string>
+    <!-- Default date -->
     <string name="date">Mon June 17</string>
+    <!-- Temperature placeholder -->
     <string name="temp">%1$d°C</string>
+    <!-- Temperature range placeholder -->
     <string name="temp_min_max">%1$d° / %2$d°</string>
 
+    <!-- Description for card background icon -->
     <string name="card_background_icon_description">Card background icon</string>
 
+    <!-- Title for pressure -->
     <string name="title_pressure">Pressure</string>
+    <!-- Pressure value placeholder -->
     <string name="pressure_value">%1$s hPa</string>
+    <!-- Description for pressure icon -->
     <string name="pressure_description">Pressure icon</string>
 
+    <!-- Title for humidity -->
     <string name="title_humidity">Humidity</string>
+    <!-- Humidity value placeholder -->
     <string name="humidity_value">%1$s%%</string>
+    <!-- Description for humidity icon -->
     <string name="humidity_description">Humidity icon</string>
 
+    <!-- Title for cloudiness -->
     <string name="title_cloudiness">Cloudiness</string>
+    <!-- Cloudiness value placeholder -->
     <string name="cloudiness_value">%1$d%%</string>
+    <!-- Description for cloudiness icon -->
     <string name="cloudiness_description">Cloudiness icon</string>
 
+    <!-- Title for 24-hour forecast -->
     <string name="title_forecast">24-Hour Forecast</string>
 
+    <!-- Wind speed placeholder -->
     <string name="wind_speed">%1$.1f km/h</string>
+    <!-- Wind direction placeholder -->
     <string name="wind_direction">%s</string>
 
+    <!-- Sunset time placeholder -->
     <string name="sunset">Sunset: %s</string>
+    <!-- Sunrise time placeholder -->
     <string name="sunrise">Sunrise: %s</string>
 
+    <!-- AQI value placeholder -->
     <string name="aqi">AQI: %1$d</string>
+    <!-- SO2 value placeholder -->
     <string name="so2">SO\u2082: %1$.1f</string>
+    <!-- NO2 value placeholder -->
     <string name="no2">NO\u2082: %1$.1f</string>
+    <!-- O3 value placeholder -->
     <string name="o3">O\u2083: %1$.1f</string>
+    <!-- CO value placeholder -->
     <string name="co">CO: %1$.1f</string>
 </resources>

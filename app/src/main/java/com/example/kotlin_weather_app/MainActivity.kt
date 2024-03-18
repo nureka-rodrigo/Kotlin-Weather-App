@@ -26,34 +26,39 @@ import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
+    // Constants
     private val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1
+    private val OPEN_WEATHER_MAP_API_KEY = "668c2a5ed2549b7f50600493623ca749"
+
+    // Variables
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-
-    private val OPEN_WEATHER_MAP_API_KEY = "668c2a5ed2549b7f50600493623ca749"
     private lateinit var adapter: HourlyForecastAdapter
 
+    // This function is called when the activity is first created
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Set up RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         adapter = HourlyForecastAdapter(mutableListOf()) // Initialize adapter with an empty list
         recyclerView.adapter = adapter
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        // check permission is granted or not
+        // Check if location permission is granted
         checkLocationPermission()
 
-        // get current location
+        // Get current location
         getCurrentLocation()
 
-        //fetch weather data
+        // Fetch weather data
         fetchWeatherData()
     }
 
-    // check permission is granted or not
+    // Function to check if location permission is granted
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
@@ -71,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // handle permission request result
+    // Function to handle permission request result
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -92,12 +97,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // check gps is active or not
+    // Function to check if GPS is enabled
     private fun isGpsEnabled(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
+    // Function to get current location
     private fun getCurrentLocation() {
         // check gps is active or not : if not active then ask user to enable it
         if (isGpsEnabled()) {
@@ -161,6 +167,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Function to fetch weather data
     private fun fetchWeatherData() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
@@ -192,6 +199,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Function to handle weather response
     private fun handleWeatherResponse(response: JSONObject) {
         val forecastItems = response.optJSONArray("list")
         val weatherItems = mutableListOf<WeatherItem>()
@@ -310,6 +318,7 @@ class MainActivity : AppCompatActivity() {
         adapter.setItems(weatherItems)
     }
 
+    // Function to convert degrees to cardinal direction
     private fun convertDegreesToCardinalDirection(degrees: Double): String {
         val directions = arrayOf(
             "North",
@@ -325,10 +334,12 @@ class MainActivity : AppCompatActivity() {
         return directions[((degrees % 360) / 45).toInt()]
     }
 
+    // Function to show error message
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    // Function to fetch air quality data
     private fun fetchAirQualityData(latitude: Double, longitude: Double) {
         val url =
             "https://api.openweathermap.org/data/2.5/air_pollution?lat=$latitude&lon=$longitude&appid=$OPEN_WEATHER_MAP_API_KEY"
@@ -345,6 +356,7 @@ class MainActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
     }
 
+    // Function to handle air quality response
     private fun handleAirQualityResponse(response: JSONObject) {
         val airQualityItems = response.optJSONArray("list")
 
