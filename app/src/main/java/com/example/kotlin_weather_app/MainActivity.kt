@@ -131,6 +131,9 @@ class MainActivity : AppCompatActivity() {
                         // Use the location
                         latitude = location.latitude
                         longitude = location.longitude
+
+                        fetchAirQualityData(latitude, longitude)
+
                         /*
                          *  Remove this toast message after testing
                          */
@@ -143,6 +146,9 @@ class MainActivity : AppCompatActivity() {
                                     // Use the location
                                     latitude = currentLocation.latitude
                                     longitude = currentLocation.longitude
+
+                                    fetchAirQualityData(latitude, longitude)
+
                                     /*
                                     *  Remove this toast message after testing
                                     */
@@ -298,6 +304,58 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun fetchAirQualityData(latitude: Double, longitude: Double) {
+        val url = "https://api.openweathermap.org/data/2.5/air_pollution?lat=$latitude&lon=$longitude&appid=$OPEN_WEATHER_MAP_API_KEY"
+
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            Response.Listener { response ->
+                handleAirQualityResponse(response)
+            },
+            Response.ErrorListener { error ->
+                showError("Failed to fetch air quality data: ${error.message}")
+            })
+
+        // Add the request to the RequestQueue.
+        Volley.newRequestQueue(this).add(request)
+    }
+
+    private fun handleAirQualityResponse(response: JSONObject) {
+        val airQualityItems = response.optJSONArray("list")
+
+        if (airQualityItems != null && airQualityItems.length() > 0) {
+            val airQualityItem = airQualityItems.optJSONObject(0)
+            val main = airQualityItem.optJSONObject("main")
+            val components = airQualityItem.optJSONObject("components")
+
+            val aqi = main?.optInt("aqi") ?: 0
+            val co = components?.optDouble("co") ?: 0.0
+            val no = components?.optDouble("no") ?: 0.0
+            val no2 = components?.optDouble("no2") ?: 0.0
+            val o3 = components?.optDouble("o3") ?: 0.0
+            val so2 = components?.optDouble("so2") ?: 0.0
+            val pm25 = components?.optDouble("pm2_5") ?: 0.0
+            val pm10 = components?.optDouble("pm10") ?: 0.0
+            val nh3 = components?.optDouble("nh3") ?: 0.0
+
+            // Now you can use these values as per your requirement.
+            // For example, you can update TextViews with this air quality data.
+            val aqiTextView: TextView = findViewById(R.id.aqiTextView)
+            val so2TextView: TextView = findViewById(R.id.textView16)
+            val no2TextView: TextView = findViewById(R.id.textView17)
+            val o3TextView: TextView = findViewById(R.id.textView20)
+            val coTextView: TextView = findViewById(R.id.textView21)
+
+            // Update TextViews with air quality data
+            aqiTextView.text = "AQI: $aqi"
+            so2TextView.text = "SO\u2082: $so2"
+            no2TextView.text = "NO\u2082: $no2"
+            o3TextView.text = "O\u2083: $o3"
+            coTextView.text = "CO: $co"
+        } else {
+            showError("No air quality data available")
+        }
     }
 
 
