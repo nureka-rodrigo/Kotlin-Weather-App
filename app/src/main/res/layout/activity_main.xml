@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="Badulla"
+                android:text="@string/city"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
                 android:textSize="32sp" />
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="Mostly Cloudy"
+                android:text="@string/weather_description"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
                 android:textSize="20sp" />
@@ -42,14 +42,15 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/cloudy_sunny" />
+                android:src="@drawable/cloudy_sunny"
+                android:contentDescription="@string/current_weather_description" />
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Mon June 17"
+                android:text="@string/date"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
                 android:textSize="19sp" />
@@ -58,7 +59,7 @@
                 android:id="@+id/temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25°"
+                android:text="@string/temp"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
                 android:textSize="63sp"
@@ -68,7 +69,7 @@
                 android:id="@+id/temp_max_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="27° / 18°"
+                android:text="@string/temp_min_max"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
                 android:textSize="16sp" />
@@ -103,13 +104,14 @@
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/pressure" />
+                            app:srcCompat="@drawable/pressure"
+                            android:contentDescription="@string/pressure_description" />
 
                         <TextView
                             android:id="@+id/preasure"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="759mmHg"
+                            android:text="@string/pressure_value"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
@@ -118,7 +120,7 @@
                             android:id="@+id/textView5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Pressure"
+                            android:text="@string/title_pressure"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -140,13 +142,14 @@
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/uv" />
+                            app:srcCompat="@drawable/cloudy"
+                            android:contentDescription="@string/cloudiness_description" />
 
                         <TextView
-                            android:id="@+id/uv"
+                            android:id="@+id/cloudiness"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="@string/cloudiness_value"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
@@ -155,7 +158,7 @@
                             android:id="@+id/textView7"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="UV"
+                            android:text="@string/title_cloudiness"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -177,13 +180,14 @@
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/humidity" />
+                            app:srcCompat="@drawable/humidity"
+                            android:contentDescription="@string/humidity_description" />
 
                         <TextView
                             android:id="@+id/humid"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="18%"
+                            android:text="@string/humidity_value"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
@@ -192,7 +196,7 @@
                             android:id="@+id/textView9"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Humidity"
+                            android:text="@string/title_humidity"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -206,7 +210,8 @@
                     app:layout_constraintBaseline_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/small_white_circle" />
+                    app:srcCompat="@drawable/small_white_circle"
+                    android:contentDescription="@string/card_background_icon_description" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -222,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginBottom="5dp"
-                    android:text="24-Hour Forecast"
+                    android:text="@string/title_forecast"
                     android:textAlignment="center"
                     android:textColor="@color/text_color"
                     android:textSize="20sp"
@@ -259,7 +264,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
                         android:background="@drawable/white_hourly_background"
                         android:orientation="vertical">
 
@@ -269,7 +273,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:text="Sunrise: 06:24 AM"
+                            android:text="@string/sunrise"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
 
@@ -278,7 +282,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="Sunset: 06:12 PM"
+                            android:text="@string/sunset"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
                     </LinearLayout>
@@ -288,7 +292,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_weight="1"
                         android:background="@drawable/white_hourly_background"
                         android:orientation="vertical">
 
@@ -298,7 +301,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:text="North"
+                            android:text="@string/wind_direction"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
 
@@ -307,7 +310,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="2.6 km/h"
+                            android:text="@string/wind_speed"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
                     </LinearLayout>
@@ -329,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="10dp"
-                        android:text="AQI"
+                        android:text="@string/aqi"
                         android:textAlignment="center"
                         android:textColor="@color/text_color"
                         android:textSize="18sp"
@@ -340,7 +343,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="S0\u2082: 1.1"
+                        android:text="@string/so2"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
@@ -349,7 +352,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="NO\u2082: 6.0"
+                        android:text="@string/no2"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
@@ -358,7 +361,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="O\u2083: 18.5"
+                        android:text="@string/o3"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 
@@ -367,7 +370,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="CO: 2.9"
+                        android:text="@string/co"
                         android:textAlignment="center"
                         android:textColor="@color/text_color" />
 

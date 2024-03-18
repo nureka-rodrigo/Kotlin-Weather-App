@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">Weather-X</string>
+
+    <string name="city">%1$s</string>
+    <string name="weather_description">%1$s</string>
+    <string name="current_weather_description">Current weather icon</string>
+    <string name="date">Mon June 17</string>
+    <string name="temp">%1$d°C</string>
+    <string name="temp_min_max">%1$d° / %2$d°</string>
+
+    <string name="card_background_icon_description">Card background icon</string>
+
+    <string name="title_pressure">Pressure</string>
+    <string name="pressure_value">%1$s hPa</string>
+    <string name="pressure_description">Pressure icon</string>
+
+    <string name="title_humidity">Humidity</string>
+    <string name="humidity_value">%1$s%%</string>
+    <string name="humidity_description">Humidity icon</string>
+
+    <string name="title_cloudiness">Cloudiness</string>
+    <string name="cloudiness_value">%1$d%%</string>
+    <string name="cloudiness_description">Cloudiness icon</string>
+
+    <string name="title_forecast">24-Hour Forecast</string>
+
+    <string name="wind_speed">%1$.1f km/h</string>
+    <string name="wind_direction">%s</string>
+
+    <string name="sunset">Sunset: %s</string>
+    <string name="sunrise">Sunrise: %s</string>
+
+    <string name="aqi">AQI: %1$d</string>
+    <string name="so2">SO\u2082: %1$.1f</string>
+    <string name="no2">NO\u2082: %1$.1f</string>
+    <string name="o3">O\u2083: %1$.1f</string>
+    <string name="co">CO: %1$.1f</string>
 </resources>
