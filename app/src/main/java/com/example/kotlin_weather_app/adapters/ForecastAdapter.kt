@@ -9,7 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_weather_app.R
 
 // Data class to hold the weather information for each hour
-data class WeatherItem(val title: String, val iconResId: Int, val temperature: String)
+data class WeatherItem(
+    val title: String,
+    val iconResId: Int,
+    val temperature: String,
+    val main: String
+)
 
 // Adapter class for the RecyclerView that displays the hourly forecast
 class HourlyForecastAdapter(private val itemList: MutableList<WeatherItem>) :

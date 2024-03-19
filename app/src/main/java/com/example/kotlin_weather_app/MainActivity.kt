@@ -220,6 +220,7 @@ class MainActivity : AppCompatActivity() {
                         val main = forecastItem.optJSONObject("main")
                         val weatherArray = forecastItem.optJSONArray("weather")
                         val weather = weatherArray?.optJSONObject(0)
+                        val mainString = weather?.optString("main") ?: ""
 
                         val date = Date(time * 1000L) // Convert to milliseconds
                         val sdf = SimpleDateFormat("h:mm a", Locale.getDefault())
@@ -230,11 +231,15 @@ class MainActivity : AppCompatActivity() {
                             formattedTime = "Now"
                         }
 
-                        val icon = weather?.optString("icon") ?: ""
                         val temp = main?.optDouble("temp") ?: 0.0
 
                         val weatherItem =
-                            WeatherItem(formattedTime, R.drawable.cloudy_sunny, "${temp.toInt()}°C")
+                            WeatherItem(
+                                formattedTime,
+                                getWeatherIcon(mainString),
+                                "${temp.toInt()}°C",
+                                mainString
+                            )
                         weatherItems.add(weatherItem)
                     }
                 }
