@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -249,6 +250,11 @@ class MainActivity : AppCompatActivity() {
 
         val weatherArray = forecastData?.optJSONArray("weather")
         val weatherData = weatherArray?.optJSONObject(0)
+        val main = weatherData?.optString("main") ?: ""
+        val weatherIcon = getWeatherIcon(main)
+
+        val weatherImageView: ImageView = findViewById(R.id.imageView)
+        weatherImageView.setImageResource(weatherIcon)
         val description = weatherData?.optString("description")?.lowercase(Locale.getDefault())
             ?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(
@@ -316,6 +322,20 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter.setItems(weatherItems)
+    }
+
+    // Function to get weather icon
+    private fun getWeatherIcon(main: String): Int {
+        return when (main) {
+            "Thunderstorm" -> R.drawable.storm
+            "Drizzle" -> R.drawable.rainy
+            "Rain" -> R.drawable.rainy
+            "Snow" -> R.drawable.snowy
+            "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> R.drawable.wind
+            "Clear" -> R.drawable.sunny
+            "Clouds" -> R.drawable.cloudy_sunny
+            else -> R.drawable.sunny // Default icon
+        }
     }
 
     // Function to convert degrees to cardinal direction
