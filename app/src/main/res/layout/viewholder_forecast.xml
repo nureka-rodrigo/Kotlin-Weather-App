@@ -7,34 +7,41 @@
     android:background="@drawable/white_hourly_background"
     android:elevation="3dp">
 
+    <!-- This is the main LinearLayout that holds the TextViews and ImageView -->
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <!-- This TextView displays the hour -->
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="TextView"
+            android:text="@string/forecast_time"
             android:textAlignment="center"
             android:textColor="@color/text_color" />
 
+        <!-- This ImageView displays the weather icon -->
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/cloudy_sunny" />
+            app:srcCompat="@drawable/cloudy_sunny"
+            android:contentDescription="@string/forecast_weather_icon_description" />
 
+        <!-- This TextView displays the temperature -->
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textView19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="20"
+            android:text="@string/forecast_temp"
             android:textAlignment="center"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
