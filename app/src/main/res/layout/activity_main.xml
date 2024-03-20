@@ -7,6 +7,12 @@
     android:background="@color/background_color"
     tools:context=".MainActivity">
 
+    <!-- SwipeRefreshLayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <!-- Scroll view to allow scrolling when the content is larger than the screen -->
     <ScrollView
         android:layout_width="match_parent"
@@ -431,5 +437,6 @@
         </LinearLayout>
 
     </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
