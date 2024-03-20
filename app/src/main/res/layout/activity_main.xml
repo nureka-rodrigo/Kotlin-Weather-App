@@ -427,6 +427,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
+                android:textStyle="italic"
                 android:text="@string/last_updated"
                 android:textColor="@color/text_color"
                 android:textSize="12sp"

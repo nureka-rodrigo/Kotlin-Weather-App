@@ -65,4 +65,11 @@
 
     <!-- Last updated time placeholder -->
     <string name="last_updated">Last updated at: %s</string>
+
+    <!-- Forecast time placeholder -->
+    <string name="forecast_time">TextView</string>
+    <!-- Description for forecast weather icon -->
+    <string name="forecast_weather_icon_description">Forecast Weather Icon</string>
+    <!-- Forecast temperature placeholder -->
+    <string name="forecast_temp">20</string>
 </resources>

@@ -22,15 +22,15 @@ class HourlyForecastAdapter(private val itemList: MutableList<WeatherItem>) :
 
     // ViewHolder class that holds the views for each item in the RecyclerView
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.textView12)
+        val titleTextView: TextView = itemView.findViewById(R.id.textView18)
         val iconImageView: ImageView = itemView.findViewById(R.id.imageView5)
-        val temperatureTextView: TextView = itemView.findViewById(R.id.textView13)
+        val temperatureTextView: TextView = itemView.findViewById(R.id.textView19)
     }
 
     // This function is called when RecyclerView needs a new ViewHolder of the given type to represent an item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.viewholder_hourly, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.viewholder_forecast, parent, false)
         return ViewHolder(view)
     }
 
