@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -40,12 +41,14 @@ class MainActivity : AppCompatActivity() {
 
     // This function is called when the activity is first created
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Set up SwipeRefreshLayout
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
+            getCurrentLocation()
             fetchWeatherData()
             fetchAirQualityData(latitude, longitude)
             swipeRefreshLayout.isRefreshing = false
@@ -129,14 +132,6 @@ class MainActivity : AppCompatActivity() {
                         // Use the location
                         latitude = location.latitude
                         longitude = location.longitude
-                        /*
-                         *  Remove this toast message after testing
-                         */
-                        Toast.makeText(
-                            this,
-                            "Latitude: $latitude, Longitude: $longitude",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     } else {
                         fusedLocationClient.getCurrentLocation(100, null)
                             .addOnSuccessListener { currentLocation ->
@@ -144,20 +139,6 @@ class MainActivity : AppCompatActivity() {
                                     // Use the location
                                     latitude = currentLocation.latitude
                                     longitude = currentLocation.longitude
-                                    /*
-                                    *  Remove this toast message after testing
-                                    */
-                                    Toast.makeText(
-                                        this,
-                                        "Latitude: $latitude, Longitude: $longitude",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        this,
-                                        "Something went wrong...",
-                                        Toast.LENGTH_LONG
-                                    ).show()
                                 }
                             }
                     }

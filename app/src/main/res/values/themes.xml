@@ -5,5 +5,10 @@
         <item name="colorPrimaryDark">@color/background_color</item>
     </style>
 
-    <style name="Theme.KotlinWeatherApp" parent="Base.Theme.KotlinWeatherApp" />
+    <style name="Theme.SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/dark_background</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.KotlinWeatherApp</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/weather_x</item>
+        <item name="windowSplashScreenAnimationDuration">3000</item>
+    </style>
 </resources>
