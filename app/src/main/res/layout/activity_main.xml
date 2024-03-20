@@ -300,7 +300,7 @@
                             android:id="@+id/textView12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/sunrise"
                             android:textAlignment="center"
@@ -311,7 +311,7 @@
                             android:id="@+id/textView13"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="12dp"
                             android:text="@string/sunset"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
@@ -330,7 +330,7 @@
                             android:id="@+id/textView14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/wind_direction"
                             android:textAlignment="center"
@@ -341,7 +341,7 @@
                             android:id="@+id/textView15"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="12dp"
                             android:text="@string/wind_speed"
                             android:textAlignment="center"
                             android:textColor="@color/text_color" />
@@ -415,7 +415,21 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/lastUpdatedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="@string/last_updated"
+                android:textColor="@color/text_color"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
 
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

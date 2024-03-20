@@ -62,4 +62,7 @@
     <string name="o3">O\u2083: %1$.1f</string>
     <!-- CO value placeholder -->
     <string name="co">CO: %1$.1f</string>
+
+    <!-- Last updated time placeholder -->
+    <string name="last_updated">Last updated at: %s</string>
 </resources>

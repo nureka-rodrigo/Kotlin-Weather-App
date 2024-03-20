@@ -198,6 +198,10 @@ class MainActivity : AppCompatActivity() {
                 showError("Failed to get location")
             }
         }
+
+        val lastUpdatedTextView: TextView = findViewById(R.id.lastUpdatedTextView)
+        val currentTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
+        lastUpdatedTextView.text = getString(R.string.last_updated, currentTime)
     }
 
     // Function to handle weather response
