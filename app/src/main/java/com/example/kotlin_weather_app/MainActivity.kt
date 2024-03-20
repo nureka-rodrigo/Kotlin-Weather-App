@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -21,8 +21,10 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.kotlin_weather_app.adapters.HourlyForecastAdapter
 import com.example.kotlin_weather_app.adapters.WeatherItem
+import com.example.kotlin_weather_app.models.MainViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.DelicateCoroutinesApi
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -35,22 +37,24 @@ class MainActivity : AppCompatActivity() {
 
     // Variables
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
     private lateinit var adapter: HourlyForecastAdapter
+    private val viewModel : MainViewModel by viewModels()
 
     // This function is called when the activity is first created
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.isLoading.value
+            }
+        }
         setContentView(R.layout.activity_main)
 
         // Set up SwipeRefreshLayout
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
             getCurrentLocation()
-            fetchWeatherData()
-            fetchAirQualityData(latitude, longitude)
             swipeRefreshLayout.isRefreshing = false
         }
 
@@ -67,8 +71,6 @@ class MainActivity : AppCompatActivity() {
         // Get current location
         getCurrentLocation()
 
-        // Fetch weather data
-        fetchWeatherData()
     }
 
     // Function to check if location permission is granted
@@ -129,16 +131,16 @@ class MainActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        // Use the location
-                        latitude = location.latitude
-                        longitude = location.longitude
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+                        fetchWeatherData(latitude, longitude)
                     } else {
                         fusedLocationClient.getCurrentLocation(100, null)
                             .addOnSuccessListener { currentLocation ->
                                 if (currentLocation != null) {
-                                    // Use the location
-                                    latitude = currentLocation.latitude
-                                    longitude = currentLocation.longitude
+                                    val latitude = currentLocation.latitude
+                                    val longitude = currentLocation.longitude
+                                    fetchWeatherData(latitude, longitude)
                                 }
                             }
                     }
@@ -159,35 +161,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to fetch weather data
-    private fun fetchWeatherData() {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        checkLocationPermission()
+    private fun fetchWeatherData(latitude: Double , longitude: Double) {
+        if (latitude != 0.0 && longitude != 0.0) {
+            val url =
+                "https://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&units=metric&appid=$OPEN_WEATHER_MAP_API_KEY"
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                val lat = location.latitude
-                val lon = location.longitude
-                Log.i("lat", lat.toString())
-                Log.i("lgt", lon.toString())
-                val url =
-                    "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&units=metric&appid=$OPEN_WEATHER_MAP_API_KEY"
+            val request = JsonObjectRequest(Request.Method.GET, url, null,
+                { response ->
+                    handleWeatherResponse(response)
+                    // Fetch air quality data after weather data is fetched and handled
+                    fetchAirQualityData(latitude, longitude)
+                },
+                { error ->
+                    showError("Failed to fetch weather data: ${error.message}")
+                })
 
-                val request = JsonObjectRequest(Request.Method.GET, url, null,
-                    { response ->
-                        handleWeatherResponse(response)
-                        // Fetch air quality data after weather data is fetched and handled
-                        fetchAirQualityData(lat, lon)
-                    },
-                    { error ->
-                        showError("Failed to fetch weather data: ${error.message}")
-                    })
-
-                // Add the request to the RequestQueue.
-                Volley.newRequestQueue(this).add(request)
-            } else {
-                showError("Failed to get location")
-            }
+            // Add the request to the RequestQueue.
+            Volley.newRequestQueue(this).add(request)
+        } else {
+            showError("Failed to get location")
         }
+
 
         val lastUpdatedTextView: TextView = findViewById(R.id.lastUpdatedTextView)
         val currentTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
