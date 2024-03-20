@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
             fetchWeatherData()
+            fetchAirQualityData(latitude, longitude)
             swipeRefreshLayout.isRefreshing = false
         }
 
@@ -309,20 +310,18 @@ class MainActivity : AppCompatActivity() {
         val humidText: TextView = findViewById(R.id.humid)
         humidText.text = getString(R.string.humidity_value, humidity)
 
-        val sunriseTimestamp = response.getJSONObject("city").getLong("sunrise")
-        val sunsetTimestamp = response.getJSONObject("city").getLong("sunset")
-
-        val sunriseDate = Date(sunriseTimestamp * 1000L) // Convert to milliseconds
-        val sunsetDate = Date(sunsetTimestamp * 1000L) // Convert to milliseconds
-
         val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+
+        val sunriseTimestamp = response.getJSONObject("city").getLong("sunrise")
+        val sunriseDate = Date(sunriseTimestamp * 1000L) // Convert to milliseconds
         val sunriseTime = timeFormat.format(sunriseDate)
-        val sunsetTime = timeFormat.format(sunsetDate)
-
         val sunriseTextView: TextView = findViewById(R.id.textView12)
-        val sunsetTextView: TextView = findViewById(R.id.textView13)
-
         sunriseTextView.text = getString(R.string.sunrise, sunriseTime)
+
+        val sunsetTimestamp = response.getJSONObject("city").getLong("sunset")
+        val sunsetDate = Date(sunsetTimestamp * 1000L) // Convert to milliseconds
+        val sunsetTime = timeFormat.format(sunsetDate)
+        val sunsetTextView: TextView = findViewById(R.id.textView13)
         sunsetTextView.text = getString(R.string.sunset, sunsetTime)
 
         val windData = forecastData?.optJSONObject("wind")
