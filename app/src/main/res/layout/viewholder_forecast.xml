@@ -32,7 +32,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/cloudy_sunny"
+            app:srcCompat="@drawable/clouds"
             android:contentDescription="@string/forecast_weather_icon_description" />
 
         <!-- This TextView displays the temperature -->

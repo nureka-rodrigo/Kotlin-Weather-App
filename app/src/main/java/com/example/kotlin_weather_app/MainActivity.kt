@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             setOnExitAnimationListener{splashScreenView ->
                 handleWeatherResponse(weatherResponse)
                 handleAirQualityResponse(airQualityResponse)
-                splashScreenView.remove();
+                splashScreenView.remove()
             }
         }
 
@@ -376,14 +376,14 @@ class MainActivity : AppCompatActivity() {
     // Function to get weather icon
     private fun getWeatherIcon(main: String): Int {
         return when (main) {
-            "Thunderstorm" -> R.drawable.storm
-            "Drizzle" -> R.drawable.rainy
-            "Rain" -> R.drawable.rainy
-            "Snow" -> R.drawable.snowy
-            "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> R.drawable.wind
-            "Clear" -> R.drawable.sunny
-            "Clouds" -> R.drawable.cloudy_sunny
-            else -> R.drawable.sunny // Default icon
+            "Thunderstorm" -> R.drawable.thunderstorm
+            "Drizzle" -> R.drawable.drizzle
+            "Rain" -> R.drawable.rain
+            "Snow" -> R.drawable.snow
+            "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> R.drawable.mist
+            "Clear" -> R.drawable.clear
+            "Clouds" -> R.drawable.clouds
+            else -> R.drawable.clear // Default icon
         }
     }
 
