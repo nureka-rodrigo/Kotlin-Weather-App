@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -37,14 +39,13 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
 class MainActivity : AppCompatActivity() {
     // Constants
     private val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1
     private val OPEN_WEATHER_MAP_API_KEY = "668c2a5ed2549b7f50600493623ca749"
     private lateinit var weatherResponse: JSONObject
     private lateinit var airQualityResponse: JSONObject
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
     private val dataStoreLat = doublePreferencesKey("latitude")
     private val dataStoreLng = doublePreferencesKey("longitude")
     private lateinit var turnOnLocationBtn : MaterialCardView
@@ -245,7 +246,6 @@ class MainActivity : AppCompatActivity() {
         if (forecastItems != null) {
             for (i in 0 until forecastItems.length()) {
                 val forecastItem = forecastItems.optJSONObject(i)
-
                 if (forecastItem != null) {
                     val time = forecastItem.optLong("dt")
 
@@ -350,6 +350,9 @@ class MainActivity : AppCompatActivity() {
         val sunsetTextView: TextView = findViewById(R.id.textView13)
         sunsetTextView.text = getString(R.string.sunset, sunsetTime)
 
+        // change background color gradient
+        changeBackgroundImage(main , sunriseDate , sunsetDate)
+
         val windData = forecastData?.optJSONObject("wind")
         val windSpeed = windData?.optDouble("speed") ?: 0.0
         val windDirectionDegrees = windData?.optDouble("deg") ?: 0.0
@@ -423,6 +426,25 @@ class MainActivity : AppCompatActivity() {
             "Clear" -> R.drawable.clear
             "Clouds" -> R.drawable.clouds
             else -> R.drawable.clear // Default icon
+        }
+    }
+
+    private fun changeBackgroundImage(main: String , sunrise: Date , sunset: Date) {
+        // get current date in milliseconds
+        val currentTime = System.currentTimeMillis()
+        val background: ConstraintLayout = findViewById(R.id.mainLayout)
+
+        if (currentTime in sunset.time..sunrise.time) {
+            background.setBackgroundResource(R.drawable.black_gradient_background)
+        }else {
+            when (main) {
+                "Snow" -> background.setBackgroundResource(R.drawable.black_gradient_background)
+                "Rain", "Drizzle", "Thunderstorm", "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> background.setBackgroundResource(
+                    R.drawable.black_gradient_background
+                )
+                "Clear", "Clouds" -> background.setBackgroundResource(R.drawable.blue_gradient_background)
+                else -> background.setBackgroundResource(R.drawable.blue_gradient_background) // Default background
+            }
         }
     }
 

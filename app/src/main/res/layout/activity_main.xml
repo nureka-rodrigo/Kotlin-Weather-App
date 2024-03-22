@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@drawable/blue_gradient_background"
+    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <!-- SwipeRefreshLayout -->
@@ -30,10 +31,10 @@
                 android:id="@+id/cityName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/city"
                 android:textAlignment="center"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="32sp" />
 
             <!-- turn on location service text -->
@@ -42,9 +43,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:background="@color/white"
+                android:backgroundTint="@color/glass_white"
                 app:cardCornerRadius="10dp"
-               android:visibility="gone"
+               android:visibility="visible"
+                android:background="@drawable/gradient_background_banner"
                 android:layout_gravity="center">
                 <ImageView
                     android:layout_width="20dp"
@@ -55,11 +57,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
+                    android:paddingVertical="3dp"
                     android:layout_marginStart="15dp"
-                    android:text="@string/turn_on_location_service"/>
+                    android:textSize="12sp"
+                    android:text="@string/turn_on_location_service"
+                    tools:ignore="SmallSp" />
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Weather description text view -->
@@ -67,10 +71,10 @@
                 android:id="@+id/weatherDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/weather_description"
                 android:textAlignment="center"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <!-- Weather icon image view -->
@@ -91,28 +95,30 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/date"
                 android:textAlignment="center"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="19sp" />
 
             <!-- Temperature text view -->
+
+            <!-- Feels like temperature text view -->
             <TextView
                 android:id="@+id/temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
                 android:text="@string/temp"
                 android:textAlignment="center"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="63sp"
                 android:textStyle="bold" />
 
-            <!-- Feels like temperature text view -->
             <TextView
                 android:id="@+id/feels_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/feels_like"
                 android:textAlignment="center"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
 
@@ -124,7 +130,7 @@
                 android:text="@string/temp_min_max"
                 android:textAlignment="center"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <!-- Constraint layout for pressure, cloudiness and humidity -->
@@ -133,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="24dp"
+                android:backgroundTint="@color/glass_white"
                 android:background="@drawable/gradient_background_banner">
 
                 <!-- Linear layout for pressure, cloudiness and humidity -->
@@ -299,7 +306,7 @@
                     android:layout_weight="1"
                     android:text="@string/title_forecast"
                     android:textAlignment="center"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -336,7 +343,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/white_hourly_background"
+                        android:backgroundTint="@color/glass_white"
+                        android:background="@drawable/gradient_background_banner"
                         android:orientation="vertical">
 
                         <!-- Sunrise time -->
@@ -348,7 +356,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="@string/sunrise"
                             android:textAlignment="center"
-                            android:textColor="@color/text_color" />
+                            android:textColor="@color/white" />
 
                         <!-- Sunset time -->
                         <TextView
@@ -358,7 +366,7 @@
                             android:layout_marginBottom="12dp"
                             android:text="@string/sunset"
                             android:textAlignment="center"
-                            android:textColor="@color/text_color" />
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
                     <!-- Bottom Vertical Section -->
@@ -366,7 +374,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/white_hourly_background"
+                        android:backgroundTint="@color/glass_white"
+                        android:background="@drawable/gradient_background_banner"
                         android:orientation="vertical">
 
                         <!-- Wind direction -->
@@ -378,7 +387,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="@string/wind_direction"
                             android:textAlignment="center"
-                            android:textColor="@color/text_color" />
+                            android:textColor="@color/white" />
 
                         <!-- Wind speed -->
                         <TextView
@@ -388,7 +397,7 @@
                             android:layout_marginBottom="12dp"
                             android:text="@string/wind_speed"
                             android:textAlignment="center"
-                            android:textColor="@color/text_color" />
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -399,7 +408,8 @@
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/white_hourly_background"
+                    android:backgroundTint="@color/glass_white"
+                    android:background="@drawable/gradient_background_banner"
                     android:orientation="vertical">
 
                     <!-- AQI value -->
@@ -411,7 +421,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/aqi"
                         android:textAlignment="center"
-                        android:textColor="@color/text_color"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -423,7 +433,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/so2"
                         android:textAlignment="center"
-                        android:textColor="@color/text_color" />
+                        android:textColor="@color/white" />
 
                     <!-- NO2 value -->
                     <TextView
@@ -433,7 +443,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/no2"
                         android:textAlignment="center"
-                        android:textColor="@color/text_color" />
+                        android:textColor="@color/white" />
 
                     <!-- O3 value -->
                     <TextView
@@ -443,7 +453,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/o3"
                         android:textAlignment="center"
-                        android:textColor="@color/text_color" />
+                        android:textColor="@color/white" />
 
                     <!-- CO value -->
                     <TextView
@@ -453,7 +463,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/co"
                         android:textAlignment="center"
-                        android:textColor="@color/text_color" />
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
 
@@ -467,7 +477,7 @@
                 android:gravity="center"
                 android:textStyle="italic"
                 android:text="@string/last_updated"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

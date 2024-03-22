@@ -5,5 +5,6 @@
     <color name="background_color">#F3E9FE</color>
     <color name="text_color">#331866</color>
     <color name="logo_blue">#387ADF</color>
+    <color name="glass_white">#30ffffff</color>
     <color name="dark_background">#222831</color>
 </resources>
