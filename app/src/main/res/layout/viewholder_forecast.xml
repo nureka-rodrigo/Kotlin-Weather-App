@@ -4,8 +4,8 @@
     android:layout_width="90dp"
     android:layout_height="120dp"
     android:layout_margin="5dp"
-    android:backgroundTint="@color/glass_white"
     android:background="@drawable/gradient_background_banner"
+    android:backgroundTint="@color/glass_white"
     android:elevation="3dp">
 
     <!-- This is the main LinearLayout that holds the TextViews and ImageView -->
@@ -33,8 +33,8 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/clouds"
-            android:contentDescription="@string/forecast_weather_icon_description" />
+            android:contentDescription="@string/forecast_weather_icon_description"
+            app:srcCompat="@drawable/clouds" />
 
         <!-- This TextView displays the temperature -->
         <TextView
@@ -47,4 +47,5 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

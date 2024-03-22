@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -37,9 +35,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
+
 class MainActivity : AppCompatActivity() {
     // Constants
     private val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var airQualityResponse: JSONObject
     private val dataStoreLat = doublePreferencesKey("latitude")
     private val dataStoreLng = doublePreferencesKey("longitude")
-    private lateinit var turnOnLocationBtn : MaterialCardView
+    private lateinit var turnOnLocationBtn: MaterialCardView
 
     // Variables
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -58,8 +58,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
-            val lat: Flow<Double> = dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
-            val lng: Flow<Double> = dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
+            val lat: Flow<Double> =
+                dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
+            val lng: Flow<Double> =
+                dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
             runBlocking {
                 fetchAirQualityData(lat.first(), lng.first())
                 fetchWeatherData(lat.first(), lng.first())
@@ -148,12 +150,12 @@ class MainActivity : AppCompatActivity() {
 
     // Function to get current location
     private fun getCurrentLocation() {
-        // check gps is active or not : if not active then ask user to enable it
+        // Check if GPS is enabled
         if (isGpsEnabled()) {
-            // get current location
+            // Get the location service
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-            // check permission is granted or not again
+            // Check if location permission is granted
             checkLocationPermission()
 
             fusedLocationClient.lastLocation
@@ -206,7 +208,7 @@ class MainActivity : AppCompatActivity() {
     // Function to fetch air quality data
     private fun fetchAirQualityData(latitude: Double, longitude: Double) {
         if (latitude != 0.0 && longitude != 0.0) {
-            // save location to dataStore
+            // Save location to dataStore
             runBlocking {
                 saveLocation(latitude, longitude)
             }
@@ -280,18 +282,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Get current date
         val currentDate = SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(Date())
         val dateTextView: TextView = findViewById(R.id.textView1)
         dateTextView.text = currentDate
 
+        // Get weather description
         val weatherDescription: TextView = findViewById(R.id.weatherDescription)
-        val forecastData = forecastItems?.optJSONObject(0)
 
+        val forecastData = forecastItems?.optJSONObject(0)
         val weatherArray = forecastData?.optJSONArray("weather")
         val weatherData = weatherArray?.optJSONObject(0)
         val main = weatherData?.optString("main") ?: ""
-        val weatherIcon = getWeatherIcon(main)
 
+        // Get weather icon
+        val weatherIcon = getWeatherIcon(main)
         val weatherImageView: ImageView = findViewById(R.id.imageView)
         weatherImageView.setImageResource(weatherIcon)
         val description = weatherData?.optString("description")?.lowercase(Locale.getDefault())
@@ -303,6 +308,7 @@ class MainActivity : AppCompatActivity() {
             ?: ""
         weatherDescription.text = getString(R.string.weather_description, description)
 
+        // Get city name
         val cityNameText: TextView = findViewById(R.id.cityName)
         val city = response.optJSONObject("city")
         val cityName = city?.optString("name") ?: ""
@@ -310,56 +316,67 @@ class MainActivity : AppCompatActivity() {
 
         val mainData = forecastData?.optJSONObject("main")
 
+        // Get temperature data
         val temp = mainData?.optDouble("temp") ?: 0.0
         val tempText: TextView = findViewById(R.id.temp)
         tempText.text = getString(R.string.temp, temp.toInt())
 
+        // Get feels like temperature data
         val feelsLike = mainData?.optDouble("feels_like") ?: 0.0
         val feelsLikeTextView: TextView = findViewById(R.id.feels_like)
         feelsLikeTextView.text = getString(R.string.feels_like, feelsLike.toInt())
 
+        // Get max and min temperature data
         val tempMax = mainData?.optDouble("temp_max") ?: 0.0
         val tempMin = mainData?.optDouble("temp_min") ?: 0.0
         val tempMaxMinText: TextView = findViewById(R.id.temp_max_min)
         tempMaxMinText.text = getString(R.string.temp_min_max, tempMax.toInt(), tempMin.toInt())
 
+        // Get pressure data
         val pressure = mainData?.optString("pressure") ?: ""
         val pressureText: TextView = findViewById(R.id.preasure)
         pressureText.text = getString(R.string.pressure_value, pressure)
 
+        // Get cloudiness data
         val cloudsData = forecastData?.optJSONObject("clouds")
         val cloudiness = cloudsData?.optInt("all") ?: 0
         val cloudinessText: TextView = findViewById(R.id.cloudiness)
         cloudinessText.text = getString(R.string.cloudiness_value, cloudiness)
 
+        // Get humidity data
         val humidity = mainData?.optString("humidity") ?: ""
         val humidText: TextView = findViewById(R.id.humid)
         humidText.text = getString(R.string.humidity_value, humidity)
 
         val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
 
+        // Get sunrise time
         val sunriseTimestamp = response.getJSONObject("city").getLong("sunrise")
         val sunriseDate = Date(sunriseTimestamp * 1000L) // Convert to milliseconds
         val sunriseTime = timeFormat.format(sunriseDate)
         val sunriseTextView: TextView = findViewById(R.id.textView12)
         sunriseTextView.text = getString(R.string.sunrise, sunriseTime)
 
+        // Get sunset time
         val sunsetTimestamp = response.getJSONObject("city").getLong("sunset")
         val sunsetDate = Date(sunsetTimestamp * 1000L) // Convert to milliseconds
         val sunsetTime = timeFormat.format(sunsetDate)
         val sunsetTextView: TextView = findViewById(R.id.textView13)
         sunsetTextView.text = getString(R.string.sunset, sunsetTime)
 
-        // change background color gradient
-        changeBackgroundImage(main , sunriseDate , sunsetDate)
+        // Change background image based on weather
+        changeBackgroundImage(main, sunriseDate, sunsetDate)
 
+        // Get wind data
         val windData = forecastData?.optJSONObject("wind")
         val windSpeed = windData?.optDouble("speed") ?: 0.0
         val windDirectionDegrees = windData?.optDouble("deg") ?: 0.0
 
+        // Get wind speed
         val windSpeedText: TextView = findViewById(R.id.textView15)
         windSpeedText.text = getString(R.string.wind_speed, windSpeed)
 
+        // Get wind direction
         val windDirectionText: TextView = findViewById(R.id.textView14)
         windDirectionText.text = getString(
             R.string.wind_direction,
@@ -371,13 +388,16 @@ class MainActivity : AppCompatActivity() {
 
     // Function to handle air quality response
     private fun handleAirQualityResponse(response: JSONObject) {
+        // Get air quality items
         val airQualityItems = response.optJSONArray("list")
 
         if (airQualityItems != null && airQualityItems.length() > 0) {
+            // Get main and components objects
             val airQualityItem = airQualityItems.optJSONObject(0)
             val main = airQualityItem.optJSONObject("main")
             val components = airQualityItem.optJSONObject("components")
 
+            // Get air quality data
             val aqi = main?.optInt("aqi") ?: 0
             val aqiText = convertAqiToText(aqi)
             val co = components?.optDouble("co") ?: 0.0
@@ -385,6 +405,7 @@ class MainActivity : AppCompatActivity() {
             val o3 = components?.optDouble("o3") ?: 0.0
             val so2 = components?.optDouble("so2") ?: 0.0
 
+            // Get TextViews
             val aqiTextView: TextView = findViewById(R.id.aqiTextView)
             val so2TextView: TextView = findViewById(R.id.textView16)
             val no2TextView: TextView = findViewById(R.id.textView17)
@@ -429,19 +450,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeBackgroundImage(main: String , sunrise: Date , sunset: Date) {
-        // get current date in milliseconds
+    private fun changeBackgroundImage(main: String, sunrise: Date, sunset: Date) {
+        // Get current time
         val currentTime = System.currentTimeMillis()
         val background: ConstraintLayout = findViewById(R.id.mainLayout)
 
         if (currentTime in sunset.time..sunrise.time) {
             background.setBackgroundResource(R.drawable.black_gradient_background)
-        }else {
+        } else {
             when (main) {
                 "Snow" -> background.setBackgroundResource(R.drawable.black_gradient_background)
                 "Rain", "Drizzle", "Thunderstorm", "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> background.setBackgroundResource(
                     R.drawable.black_gradient_background
                 )
+
                 "Clear", "Clouds" -> background.setBackgroundResource(R.drawable.blue_gradient_background)
                 else -> background.setBackgroundResource(R.drawable.blue_gradient_background) // Default background
             }
@@ -469,12 +491,12 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    // save locations to dataStore
+    // Function to save location to dataStore
     private suspend fun saveLocation(latitude: Double, longitude: Double) {
         dataStore.edit { locations ->
             val currentLat = locations[dataStoreLat] ?: 51.5072
             val currentLng = locations[dataStoreLng] ?: -0.1276
-            if(currentLat != latitude || currentLng != longitude){
+            if (currentLat != latitude || currentLng != longitude) {
                 locations[dataStoreLat] = latitude
                 locations[dataStoreLng] = longitude
             }

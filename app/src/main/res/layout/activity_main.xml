@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blue_gradient_background"
-    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <!-- SwipeRefreshLayout -->
@@ -14,478 +14,480 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!-- Scroll view to allow scrolling when the content is larger than the screen -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- Main layout container -->
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <!-- Scroll view to allow scrolling when the content is larger than the screen -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!-- City name text view -->
-            <TextView
-                android:id="@+id/cityName"
+            <!-- Main layout container -->
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/city"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="32sp" />
+                android:orientation="vertical">
 
-            <!-- turn on location service text -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/location_on_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:backgroundTint="@color/glass_white"
-                app:cardCornerRadius="10dp"
-               android:visibility="visible"
-                android:background="@drawable/gradient_background_banner"
-                android:layout_gravity="center">
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/baseline_circle_24"
-                    android:contentDescription="@string/circle" />
+                <!-- City name text view -->
                 <TextView
+                    android:id="@+id/cityName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/city"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="32sp" />
+
+                <!-- Turn on location service text -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/location_on_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/gradient_background_banner"
+                    android:backgroundTint="@color/glass_white"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/circle"
+                        android:src="@drawable/baseline_circle_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:text="@string/turn_on_location_service"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        tools:ignore="SmallSp" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Weather description text view -->
+                <TextView
+                    android:id="@+id/weatherDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/weather_description"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginStart="15dp"
-                    android:textSize="12sp"
-                    android:text="@string/turn_on_location_service"
-                    tools:ignore="SmallSp" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:textSize="20sp" />
 
-            <!-- Weather description text view -->
-            <TextView
-                android:id="@+id/weatherDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/weather_description"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <!-- Weather icon image view -->
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/current_weather_description"
+                    android:src="@drawable/clouds" />
 
-            <!-- Weather icon image view -->
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/current_weather_description"
-                android:src="@drawable/clouds" />
+                <!-- Date text view -->
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/date"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="19sp" />
 
-            <!-- Date text view -->
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/date"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="19sp" />
+                <!-- Temperature text view -->
 
-            <!-- Temperature text view -->
+                <!-- Feels like temperature text view -->
+                <TextView
+                    android:id="@+id/temp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/temp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="63sp"
+                    android:textStyle="bold" />
 
-            <!-- Feels like temperature text view -->
-            <TextView
-                android:id="@+id/temp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="@string/temp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="63sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/feels_like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/feels_like"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/feels_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feels_like"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
 
-            <!-- Temperature range text view -->
-            <TextView
-                android:id="@+id/temp_max_min"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/temp_min_max"
-                android:textAlignment="center"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                <!-- Temperature range text view -->
+                <TextView
+                    android:id="@+id/temp_max_min"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/temp_min_max"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
-            <!-- Constraint layout for pressure, cloudiness and humidity -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraint"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="24dp"
-                android:backgroundTint="@color/glass_white"
-                android:background="@drawable/gradient_background_banner">
+                <!-- Constraint layout for pressure, cloudiness and humidity -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="24dp"
+                    android:background="@drawable/gradient_background_banner"
+                    android:backgroundTint="@color/glass_white">
 
-                <!-- Linear layout for pressure, cloudiness and humidity -->
+                    <!-- Linear layout for pressure, cloudiness and humidity -->
+                    <LinearLayout
+                        android:id="@+id/linearLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <!-- Pressure section -->
+                        <LinearLayout
+                            android:id="@+id/linearLayout2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="0.333"
+                            android:orientation="vertical">
+
+                            <!-- Pressure icon -->
+                            <ImageView
+                                android:id="@+id/imageView1"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/pressure_description"
+                                app:srcCompat="@drawable/pressure" />
+
+                            <!-- Pressure value -->
+                            <TextView
+                                android:id="@+id/preasure"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pressure_value"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textStyle="bold" />
+
+                            <!-- Pressure title -->
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/title_pressure"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+
+                        </LinearLayout>
+
+                        <!-- Cloudiness section -->
+                        <LinearLayout
+                            android:id="@+id/linearLayout3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="0.333"
+                            android:orientation="vertical">
+
+                            <!-- Cloudiness icon -->
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/cloudiness_description"
+                                app:srcCompat="@drawable/cloud" />
+
+                            <!-- Cloudiness value -->
+                            <TextView
+                                android:id="@+id/cloudiness"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cloudiness_value"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textStyle="bold" />
+
+                            <!-- Cloudiness title -->
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/title_cloudiness"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+
+                        </LinearLayout>
+
+                        <!-- Humidity section -->
+                        <LinearLayout
+                            android:id="@+id/linearLayout4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="0.333"
+                            android:orientation="vertical">
+
+                            <!-- Humidity icon -->
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/humidity_description"
+                                app:srcCompat="@drawable/humidity" />
+
+
+                            <TextView
+                                android:id="@+id/humid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/humidity_value"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textStyle="bold" />
+
+                            <!-- Title for humidity -->
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/title_humidity"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- White circle icon -->
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/card_background_icon_description"
+                        app:layout_constraintBaseline_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/small_white_circle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Start of 24-hour forecast section -->
                 <LinearLayout
-                    android:id="@+id/linearLayout1"
+                    android:id="@+id/linearLayout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- Title for 24-hour forecast -->
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/title_forecast"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- RecyclerView for displaying the 24-hour forecast -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp" />
+
+                <!-- Start of weather details section -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    tools:context=".MainActivity">
 
-                    <!-- Pressure section -->
+                    <!-- Left Section -->
                     <LinearLayout
-                        android:id="@+id/linearLayout2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:layout_weight="0.333"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <!-- Pressure icon -->
-                        <ImageView
-                            android:id="@+id/imageView1"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/pressure_description"
-                            app:srcCompat="@drawable/pressure" />
-
-                        <!-- Pressure value -->
-                        <TextView
-                            android:id="@+id/preasure"
+                        <!-- Top Vertical Section -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/pressure_value"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/gradient_background_banner"
+                            android:backgroundTint="@color/glass_white"
+                            android:orientation="vertical">
+
+                            <!-- Sunrise time -->
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="@string/sunrise"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+
+                            <!-- Sunset time -->
+                            <TextView
+                                android:id="@+id/textView13"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:text="@string/sunset"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <!-- Bottom Vertical Section -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/gradient_background_banner"
+                            android:backgroundTint="@color/glass_white"
+                            android:orientation="vertical">
+
+                            <!-- Wind direction -->
+                            <TextView
+                                android:id="@+id/textView14"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="@string/wind_direction"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+
+                            <!-- Wind speed -->
+                            <TextView
+                                android:id="@+id/textView15"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:text="@string/wind_speed"
+                                android:textAlignment="center"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Right Section -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/gradient_background_banner"
+                        android:backgroundTint="@color/glass_white"
+                        android:orientation="vertical">
+
+                        <!-- AQI value -->
+                        <TextView
+                            android:id="@+id/aqiTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/aqi"
                             android:textAlignment="center"
                             android:textColor="@color/white"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <!-- Pressure title -->
+                        <!-- SO2 value -->
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView16"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/title_pressure"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/so2"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <!-- NO2 value -->
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/no2"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <!-- O3 value -->
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/o3"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <!-- CO value -->
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/co"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
 
-                    <!-- Cloudiness section -->
-                    <LinearLayout
-                        android:id="@+id/linearLayout3"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:layout_weight="0.333"
-                        android:orientation="vertical">
-
-                        <!-- Cloudiness icon -->
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/cloudiness_description"
-                            app:srcCompat="@drawable/cloud" />
-
-                        <!-- Cloudiness value -->
-                        <TextView
-                            android:id="@+id/cloudiness"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cloudiness_value"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
-
-                        <!-- Cloudiness title -->
-                        <TextView
-                            android:id="@+id/textView7"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/title_cloudiness"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-
-                    </LinearLayout>
-
-                    <!-- Humidity section -->
-                    <LinearLayout
-                        android:id="@+id/linearLayout4"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:layout_weight="0.333"
-                        android:orientation="vertical">
-
-                        <!-- Humidity icon -->
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/humidity_description"
-                            app:srcCompat="@drawable/humidity" />
-
-
-                        <TextView
-                            android:id="@+id/humid"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/humidity_value"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
-
-                        <!-- Title for humidity -->
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/title_humidity"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- White circle icon -->
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/card_background_icon_description"
-                    app:layout_constraintBaseline_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/small_white_circle" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Start of 24-hour forecast section -->
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <!-- Title for 24-hour forecast -->
                 <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="0dp"
+                    android:id="@+id/lastUpdatedTextView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:text="@string/title_forecast"
-                    android:textAlignment="center"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="@string/last_updated"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </LinearLayout>
 
-            <!-- RecyclerView for displaying the 24-hour forecast -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp" />
-
-            <!-- Start of weather details section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                tools:context=".MainActivity">
-
-                <!-- Left Section -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Top Vertical Section -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="@color/glass_white"
-                        android:background="@drawable/gradient_background_banner"
-                        android:orientation="vertical">
-
-                        <!-- Sunrise time -->
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="@string/sunrise"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-
-                        <!-- Sunset time -->
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:text="@string/sunset"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
-
-                    <!-- Bottom Vertical Section -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="@color/glass_white"
-                        android:background="@drawable/gradient_background_banner"
-                        android:orientation="vertical">
-
-                        <!-- Wind direction -->
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="@string/wind_direction"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-
-                        <!-- Wind speed -->
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:text="@string/wind_speed"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Right Section -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/glass_white"
-                    android:background="@drawable/gradient_background_banner"
-                    android:orientation="vertical">
-
-                    <!-- AQI value -->
-                    <TextView
-                        android:id="@+id/aqiTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/aqi"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <!-- SO2 value -->
-                    <TextView
-                        android:id="@+id/textView16"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/so2"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
-
-                    <!-- NO2 value -->
-                    <TextView
-                        android:id="@+id/textView17"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/no2"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
-
-                    <!-- O3 value -->
-                    <TextView
-                        android:id="@+id/textView20"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/o3"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
-
-                    <!-- CO value -->
-                    <TextView
-                        android:id="@+id/textView21"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/co"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/lastUpdatedTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:textStyle="italic"
-                android:text="@string/last_updated"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </LinearLayout>
-
-    </ScrollView>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
