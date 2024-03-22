@@ -339,7 +339,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter.setItems(weatherItems)
-        adapter.notifyDataSetChanged()
     }
 
     // Function to handle air quality response

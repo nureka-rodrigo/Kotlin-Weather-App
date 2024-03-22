@@ -49,11 +49,8 @@ class HourlyForecastAdapter(private val itemList: MutableList<WeatherItem>) :
 
     // This function is used to update the data in the adapter
     fun setItems(weatherItems: MutableList<WeatherItem>) {
-        val oldSize = itemList.size
         itemList.clear()
         itemList.addAll(weatherItems)
-        for (i in oldSize until itemList.size) {
-            notifyItemInserted(i)
-        }
+        notifyItemRangeChanged(0, weatherItems.size)
     }
 }
