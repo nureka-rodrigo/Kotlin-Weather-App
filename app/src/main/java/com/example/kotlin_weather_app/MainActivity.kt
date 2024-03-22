@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -12,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,10 +28,15 @@ import com.example.kotlin_weather_app.adapters.HourlyForecastAdapter
 import com.example.kotlin_weather_app.adapters.WeatherItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     // Constants
@@ -33,6 +44,10 @@ class MainActivity : AppCompatActivity() {
     private val OPEN_WEATHER_MAP_API_KEY = "668c2a5ed2549b7f50600493623ca749"
     private lateinit var weatherResponse: JSONObject
     private lateinit var airQualityResponse: JSONObject
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
+    private val dataStoreLat = doublePreferencesKey("latitude")
+    private val dataStoreLng = doublePreferencesKey("longitude")
+    private lateinit var turnOnLocationBtn : MaterialCardView
 
     // Variables
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -42,8 +57,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
-            fetchAirQualityData(6.9271, 79.8612)
-            fetchWeatherData(6.9271, 79.8612)
+            val lat: Flow<Double> = dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
+            val lng: Flow<Double> = dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
+            runBlocking {
+                fetchAirQualityData(lat.first(), lng.first())
+                fetchWeatherData(lat.first(), lng.first())
+            }
             setKeepOnScreenCondition {
                 !::weatherResponse.isInitialized || !::airQualityResponse.isInitialized
             }
@@ -56,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_main)
+        turnOnLocationBtn = findViewById(R.id.location_on_btn)
 
         // Set up SwipeRefreshLayout
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
@@ -74,6 +94,10 @@ class MainActivity : AppCompatActivity() {
         // Get current location
         getCurrentLocation()
 
+        // Set up turn on location button
+        turnOnLocationBtn.setOnClickListener {
+            startActivity(android.content.Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+        }
     }
 
     // Function to check if location permission is granted
@@ -134,6 +158,7 @@ class MainActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
+                        turnOnLocationBtn.visibility = View.GONE
                         val latitude = location.latitude
                         val longitude = location.longitude
                         fetchWeatherData(latitude, longitude)
@@ -142,6 +167,7 @@ class MainActivity : AppCompatActivity() {
                         fusedLocationClient.getCurrentLocation(100, null)
                             .addOnSuccessListener { currentLocation ->
                                 if (currentLocation != null) {
+                                    turnOnLocationBtn.visibility = View.GONE
                                     val latitude = currentLocation.latitude
                                     val longitude = currentLocation.longitude
                                     fetchWeatherData(latitude, longitude)
@@ -151,17 +177,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         } else {
-            // ask user to enable gps
-            AlertDialog.Builder(this)
-                .setMessage("GPS is disabled. Do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes") { _, _ ->
-                    startActivity(android.content.Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-                .setNegativeButton("No") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
+            turnOnLocationBtn.visibility = View.VISIBLE
         }
     }
 
@@ -189,6 +205,10 @@ class MainActivity : AppCompatActivity() {
     // Function to fetch air quality data
     private fun fetchAirQualityData(latitude: Double, longitude: Double) {
         if (latitude != 0.0 && longitude != 0.0) {
+            // save location to dataStore
+            runBlocking {
+                saveLocation(latitude, longitude)
+            }
             val url =
                 "https://api.openweathermap.org/data/2.5/air_pollution?lat=$latitude&lon=$longitude&appid=$OPEN_WEATHER_MAP_API_KEY"
 
@@ -425,5 +445,18 @@ class MainActivity : AppCompatActivity() {
     // Function to show error message
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    // save locations to dataStore
+    private suspend fun saveLocation(latitude: Double, longitude: Double) {
+        dataStore.edit { locations ->
+            val currentLat = locations[dataStoreLat] ?: 51.5072
+            val currentLng = locations[dataStoreLng] ?: -0.1276
+            if(currentLat != latitude || currentLng != longitude){
+                locations[dataStoreLat] = latitude
+                locations[dataStoreLng] = longitude
+            }
+        }
+
     }
 }
