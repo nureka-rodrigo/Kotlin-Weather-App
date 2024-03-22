@@ -36,6 +36,32 @@
                 android:textColor="@color/text_color"
                 android:textSize="32sp" />
 
+            <!-- turn on location service text -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/location_on_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                app:cardCornerRadius="10dp"
+               android:visibility="gone"
+                android:layout_gravity="center">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/baseline_circle_24"
+                    android:contentDescription="@string/circle" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/turn_on_location_service"/>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Weather description text view -->
             <TextView
                 android:id="@+id/weatherDescription"
