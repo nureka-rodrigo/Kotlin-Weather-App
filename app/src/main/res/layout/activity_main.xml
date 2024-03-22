@@ -80,15 +80,14 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <!-- Weather icon image view -->
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:contentDescription="@string/current_weather_description"
-                    android:src="@drawable/clouds" />
+            <!-- Weather icon image view -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/current_weather_description"
+                android:src="@drawable/clouds" />
 
                 <!-- Date text view -->
                 <TextView
@@ -101,29 +100,26 @@
                     android:textColor="@color/white"
                     android:textSize="19sp" />
 
-                <!-- Temperature text view -->
+            <!-- Temperature text view -->
+            <TextView
+                android:id="@+id/temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/temp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="70sp" />
 
-                <!-- Feels like temperature text view -->
-                <TextView
-                    android:id="@+id/temp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:text="@string/temp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="63sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/feels_like"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feels_like"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
+            <!-- Feels like temperature text view -->
+            <TextView
+                android:id="@+id/feels_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/feels_like"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
                 <!-- Temperature range text view -->
                 <TextView
