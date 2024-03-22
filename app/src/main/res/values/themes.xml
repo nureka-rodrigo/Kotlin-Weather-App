@@ -6,7 +6,7 @@
     </style>
 
     <style name="Theme.SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/dark_background</item>
+        <item name="windowSplashScreenBackground">@color/logo_blue</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.KotlinWeatherApp</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/weather_x</item>
         <item name="windowSplashScreenAnimationDuration">3000</item>
