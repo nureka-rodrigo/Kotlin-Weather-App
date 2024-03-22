@@ -15,9 +15,9 @@
     <!-- Default date -->
     <string name="date">Mon June 17</string>
     <!-- Temperature placeholder -->
-    <string name="temp">%1$d°C</string>
+    <string name="temp">%1$d°ᶜ</string>
     <!-- Feels like temperature placeholder -->
-    <string name="feels_like">Feels Like: %1$d°C</string>
+    <string name="feels_like">Feels Like: %1$d°</string>
     <!-- Temperature range placeholder -->
     <string name="temp_min_max">%1$d° / %2$d°</string>
 
