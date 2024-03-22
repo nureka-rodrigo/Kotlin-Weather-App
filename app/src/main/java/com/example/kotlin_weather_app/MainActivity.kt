@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -18,6 +19,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var airQualityResponse: JSONObject
     private val dataStoreLat = doublePreferencesKey("latitude")
     private val dataStoreLng = doublePreferencesKey("longitude")
+    private val weatherResponseStore = stringPreferencesKey("weatherResponse")
+    private val currentWeatherResponseStore = stringPreferencesKey("currentWeatherResponse")
+    private val airQualityResponseStore = stringPreferencesKey("airQualityResponse")
     private lateinit var turnOnLocationBtn: MaterialCardView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var adapter: HourlyForecastAdapter
@@ -58,23 +63,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
-            val lat: Flow<Double> =
-                dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
-            val lng: Flow<Double> =
-                dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
-            runBlocking {
-                fetchCurrentWeatherData(lat.first(), lng.first(), false)
-                fetchAirQualityData(lat.first(), lng.first(), false)
-                fetchWeatherData(lat.first(), lng.first(), false)
-            }
+            // Set the splash screen theme with fetch the weather details
+            getLocationViaDataStore()
             setKeepOnScreenCondition {
                 !::weatherResponse.isInitialized || !::airQualityResponse.isInitialized || !::currentWeatherResponse.isInitialized
             }
 
             setOnExitAnimationListener { splashScreenView ->
-                handleCurrentWeatherResponse(currentWeatherResponse)
-                handleWeatherResponse(weatherResponse)
-                handleAirQualityResponse(airQualityResponse)
+                if(weatherResponse.length() > 0 && airQualityResponse.length() > 0 && currentWeatherResponse.length() > 0) {
+                    handleCurrentWeatherResponse(currentWeatherResponse)
+                    handleWeatherResponse(weatherResponse)
+                    handleAirQualityResponse(airQualityResponse)
+                }else{
+                    // hide swipeRefreshLayout
+                    val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+                    swipeRefreshLayout.visibility = View.GONE
+                    // Show error dialog
+                    AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Network Error")
+                        .setMessage("No internet connection. Please check your internet connection and try again.")
+                        .setNegativeButton("Exit") { _, _ ->
+                            finish()
+                        }
+                        .show()
+                }
                 splashScreenView.remove()
             }
         }
@@ -175,6 +187,21 @@ class MainActivity : AppCompatActivity() {
                 }
         } else {
             turnOnLocationBtn.visibility = View.VISIBLE
+            // set saved location from dataStore and fetch weather data
+            getLocationViaDataStore()
+        }
+    }
+
+    // get location via dataStore
+    private fun getLocationViaDataStore() {
+        val lat: Flow<Double> =
+            dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
+        val lng: Flow<Double> =
+            dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
+        runBlocking {
+            fetchCurrentWeatherData(lat.first(), lng.first(), false)
+            fetchAirQualityData(lat.first(), lng.first(), false)
+            fetchWeatherData(lat.first(), lng.first(), false)
         }
     }
 
@@ -197,12 +224,16 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     currentWeatherResponse = response
+                    runBlocking {
+                        saveJsonData(currentWeatherResponseStore, response)
+                    }
                     if (isHandle) {
                         handleCurrentWeatherResponse(response)
                     }
                 },
                 { _ ->
-
+                    // set saved weather data from dataStore
+                    setWeatherDataFromDataStore(currentWeatherResponseStore)
                 })
 
             // Add the request to the RequestQueue.
@@ -220,12 +251,16 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     weatherResponse = response
+                    runBlocking {
+                        saveJsonData(weatherResponseStore, response)
+                    }
                     if (isHandle) {
                         handleWeatherResponse(response)
                     }
                 },
                 { _ ->
-
+                    // set saved weather data from dataStore
+                    setWeatherDataFromDataStore(weatherResponseStore)
                 })
 
             // Add the request to the RequestQueue.
@@ -247,12 +282,16 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     airQualityResponse = response
+                    runBlocking {
+                        saveJsonData(airQualityResponseStore, response)
+                    }
                     if (isHandle) {
                         handleAirQualityResponse(response)
                     }
                 },
                 { _ ->
-
+                    // set saved weather data from dataStore
+                    setWeatherDataFromDataStore(airQualityResponseStore)
                 })
 
             // Add the request to the RequestQueue.
@@ -538,6 +577,28 @@ class MainActivity : AppCompatActivity() {
             if (currentLat != latitude || currentLng != longitude) {
                 locations[dataStoreLat] = latitude
                 locations[dataStoreLng] = longitude
+            }
+        }
+    }
+
+    // save weather json data to dataStore
+    private suspend fun saveJsonData(key: Preferences.Key<String>, data: JSONObject) {
+        dataStore.edit { locations ->
+            locations[key] = data.toString()
+        }
+    }
+
+    // Function to get and set weather data from dataStore
+    private fun setWeatherDataFromDataStore(key: Preferences.Key<String>) {
+        val json = dataStore.data.map { preferences ->
+            val jsonString = preferences[key] ?: "{}"
+            JSONObject(jsonString)
+        }
+        runBlocking {
+            when (key) {
+                weatherResponseStore -> weatherResponse = json.first()
+                currentWeatherResponseStore -> currentWeatherResponse = json.first()
+                airQualityResponseStore -> airQualityResponse = json.first()
             }
         }
     }
