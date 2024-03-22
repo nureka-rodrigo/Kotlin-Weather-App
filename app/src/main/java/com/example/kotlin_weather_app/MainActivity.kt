@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val OPEN_WEATHER_MAP_API_KEY = "668c2a5ed2549b7f50600493623ca749"
     private lateinit var weatherResponse: JSONObject
     private lateinit var airQualityResponse: JSONObject
+
     // Variables
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var adapter: HourlyForecastAdapter
@@ -43,11 +44,11 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen().apply {
             fetchAirQualityData(6.9271, 79.8612)
             fetchWeatherData(6.9271, 79.8612)
-            setKeepOnScreenCondition{
+            setKeepOnScreenCondition {
                 !::weatherResponse.isInitialized || !::airQualityResponse.isInitialized
             }
 
-            setOnExitAnimationListener{splashScreenView ->
+            setOnExitAnimationListener { splashScreenView ->
                 handleWeatherResponse(weatherResponse)
                 handleAirQualityResponse(airQualityResponse)
                 splashScreenView.remove()
@@ -165,7 +166,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to fetch weather data
-    private fun fetchWeatherData(latitude: Double , longitude: Double) {
+    private fun fetchWeatherData(latitude: Double, longitude: Double) {
         if (latitude != 0.0 && longitude != 0.0) {
             val url =
                 "https://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&units=metric&appid=$OPEN_WEATHER_MAP_API_KEY"
@@ -181,7 +182,7 @@ class MainActivity : AppCompatActivity() {
 
             // Add the request to the RequestQueue.
             Volley.newRequestQueue(this).add(request)
-        }else
+        } else
             showError("Failed to get weather data")
     }
 
@@ -202,12 +203,12 @@ class MainActivity : AppCompatActivity() {
 
             // Add the request to the RequestQueue.
             Volley.newRequestQueue(this).add(request)
-        }else
+        } else
             showError("Failed to get weather data")
     }
 
     // Function to show last update time
-    private fun lastUpdate(){
+    private fun lastUpdate() {
         val lastUpdatedTextView: TextView = findViewById(R.id.lastUpdatedTextView)
         val currentTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
         lastUpdatedTextView.text = getString(R.string.last_updated, currentTime)
@@ -338,6 +339,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter.setItems(weatherItems)
+        adapter.notifyDataSetChanged()
     }
 
     // Function to handle air quality response
