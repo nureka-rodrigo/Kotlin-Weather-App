@@ -51,4 +51,5 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
