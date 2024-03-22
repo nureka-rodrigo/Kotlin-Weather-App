@@ -351,6 +351,7 @@ class MainActivity : AppCompatActivity() {
             val components = airQualityItem.optJSONObject("components")
 
             val aqi = main?.optInt("aqi") ?: 0
+            val aqiText = convertAqiToText(aqi)
             val co = components?.optDouble("co") ?: 0.0
             val no2 = components?.optDouble("no2") ?: 0.0
             val o3 = components?.optDouble("o3") ?: 0.0
@@ -363,7 +364,7 @@ class MainActivity : AppCompatActivity() {
             val coTextView: TextView = findViewById(R.id.textView21)
 
             // Update TextViews with air quality data
-            aqiTextView.text = getString(R.string.aqi, aqi)
+            aqiTextView.text = getString(R.string.aqi, aqiText)
             so2TextView.text = getString(R.string.so2, so2)
             no2TextView.text = getString(R.string.no2, no2)
             o3TextView.text = getString(R.string.o3, o3)
@@ -372,6 +373,18 @@ class MainActivity : AppCompatActivity() {
             showError("No air quality data available")
         }
         lastUpdate()
+    }
+
+    // Function to convert AQI index to text
+    private fun convertAqiToText(aqi: Int): String {
+        return when (aqi) {
+            1 -> "Good"
+            2 -> "Fair"
+            3 -> "Moderate"
+            4 -> "Poor"
+            5 -> "Very Poor"
+            else -> "Unknown"
+        }
     }
 
     // Function to get weather icon

@@ -53,7 +53,7 @@
     <string name="sunrise">Sunrise: %s</string>
 
     <!-- AQI value placeholder -->
-    <string name="aqi">AQI: %1$d</string>
+    <string name="aqi">AQI: %s</string>
     <!-- SO2 value placeholder -->
     <string name="so2">SO\u2082: %1$.1f</string>
     <!-- NO2 value placeholder -->
