@@ -42,7 +42,6 @@ import java.util.Locale
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
 
 class MainActivity : AppCompatActivity() {
-    // Constants
     private val _permissionAccessFineLocation = 1
     private val _openWeatherMapApiAky = "668c2a5ed2549b7f50600493623ca749"
     private lateinit var weatherResponse: JSONObject
@@ -50,12 +49,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var airQualityResponse: JSONObject
     private val dataStoreLat = doublePreferencesKey("latitude")
     private val dataStoreLng = doublePreferencesKey("longitude")
-    private lateinit var turnOnLocationBtn : MaterialCardView
+    private lateinit var turnOnLocationBtn: MaterialCardView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var adapter: HourlyForecastAdapter
     private val weatherItems = MutableList(9) { WeatherItem("", 0, "", "") }
 
-    // This function is called when the activity is first created
+    // Function to create the activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
@@ -64,9 +63,9 @@ class MainActivity : AppCompatActivity() {
             val lng: Flow<Double> =
                 dataStore.data.map { preferences -> preferences[dataStoreLng] ?: -0.1276 }
             runBlocking {
-                fetchCurrentWeatherData(lat.first(), lng.first() , false)
-                fetchAirQualityData(lat.first(), lng.first() , false)
-                fetchWeatherData(lat.first(), lng.first() , false)
+                fetchCurrentWeatherData(lat.first(), lng.first(), false)
+                fetchAirQualityData(lat.first(), lng.first(), false)
+                fetchWeatherData(lat.first(), lng.first(), false)
             }
             setKeepOnScreenCondition {
                 !::weatherResponse.isInitialized || !::airQualityResponse.isInitialized || !::currentWeatherResponse.isInitialized
@@ -180,17 +179,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to call data fetch functions
-    private fun fetchData(location : Location) {
+    private fun fetchData(location: Location) {
         turnOnLocationBtn.visibility = View.GONE
         val latitude = location.latitude
         val longitude = location.longitude
-        fetchCurrentWeatherData(latitude, longitude , true)
-        fetchWeatherData(latitude, longitude , true)
-        fetchAirQualityData(latitude, longitude , true)
+        fetchCurrentWeatherData(latitude, longitude, true)
+        fetchWeatherData(latitude, longitude, true)
+        fetchAirQualityData(latitude, longitude, true)
     }
 
-    // function to get current weather data
-    private fun fetchCurrentWeatherData(latitude: Double, longitude: Double , isHandle:Boolean) {
+    // Function to fetch current weather data
+    private fun fetchCurrentWeatherData(latitude: Double, longitude: Double, isHandle: Boolean) {
         if (latitude != 0.0 && longitude != 0.0) {
             val url =
                 "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$_openWeatherMapApiAky"
@@ -198,7 +197,7 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     currentWeatherResponse = response
-                    if(isHandle) {
+                    if (isHandle) {
                         handleCurrentWeatherResponse(response)
                     }
                 },
@@ -213,7 +212,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to fetch weather data
-    private fun fetchWeatherData(latitude: Double, longitude: Double , isHandle:Boolean) {
+    private fun fetchWeatherData(latitude: Double, longitude: Double, isHandle: Boolean) {
         if (latitude != 0.0 && longitude != 0.0) {
             val url =
                 "https://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&units=metric&appid=$_openWeatherMapApiAky"
@@ -221,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     weatherResponse = response
-                    if(isHandle){
+                    if (isHandle) {
                         handleWeatherResponse(response)
                     }
                 },
@@ -236,7 +235,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to fetch air quality data
-    private fun fetchAirQualityData(latitude: Double, longitude: Double, isHandle:Boolean) {
+    private fun fetchAirQualityData(latitude: Double, longitude: Double, isHandle: Boolean) {
         if (latitude != 0.0 && longitude != 0.0) {
             // Save location to dataStore
             runBlocking {
@@ -248,7 +247,7 @@ class MainActivity : AppCompatActivity() {
             val request = JsonObjectRequest(Request.Method.GET, url, null,
                 { response ->
                     airQualityResponse = response
-                    if(isHandle) {
+                    if (isHandle) {
                         handleAirQualityResponse(response)
                     }
                 },
@@ -270,7 +269,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Function to handle current weather response
-    private fun handleCurrentWeatherResponse(response: JSONObject){
+    private fun handleCurrentWeatherResponse(response: JSONObject) {
         val currentDate = SimpleDateFormat("EEE, MMM dd", Locale.getDefault()).format(Date())
         val dateTextView: TextView = findViewById(R.id.textView1)
         dateTextView.text = currentDate
@@ -322,6 +321,7 @@ class MainActivity : AppCompatActivity() {
         val pressureText: TextView = findViewById(R.id.preasure)
         pressureText.text = getString(R.string.pressure_value, pressure)
 
+        // Get humidity data
         val cloudsData = response.optJSONObject("clouds")
         val cloudiness = cloudsData?.optInt("all") ?: 0
         val cloudinessText: TextView = findViewById(R.id.cloudiness)
@@ -333,20 +333,22 @@ class MainActivity : AppCompatActivity() {
         humidText.text = getString(R.string.humidity_value, humidity)
 
         val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
-        val sunriseTimestamp = response.getJSONObject("sys").getLong("sunrise")
 
+        // Get sunrise data
+        val sunriseTimestamp = response.getJSONObject("sys").getLong("sunrise")
         val sunriseDate = Date(sunriseTimestamp * 1000L) // Convert to milliseconds
         val sunriseTime = timeFormat.format(sunriseDate)
         val sunriseTextView: TextView = findViewById(R.id.textView12)
         sunriseTextView.text = getString(R.string.sunrise, sunriseTime)
 
+        // Get sunset data
         val sunsetTimestamp = response.getJSONObject("sys").getLong("sunset")
         val sunsetDate = Date(sunsetTimestamp * 1000L) // Convert to milliseconds
         val sunsetTime = timeFormat.format(sunsetDate)
         val sunsetTextView: TextView = findViewById(R.id.textView13)
         sunsetTextView.text = getString(R.string.sunset, sunsetTime)
 
-
+        // Get wind data
         val windData = response.optJSONObject("wind")
         val windSpeed = windData?.optDouble("speed") ?: 0.0
         val windDirectionDegrees = windData?.optDouble("deg") ?: 0.0
@@ -366,9 +368,10 @@ class MainActivity : AppCompatActivity() {
         val nextDayTime = currentTime + 86400 // Unix timestamp for the same time tomorrow
 
         // change background color gradient
-        changeBackgroundImage(main , sunriseTimestamp , sunsetTimestamp)
+        changeBackgroundImage(main, sunriseTimestamp, sunsetTimestamp)
 
-        val weatherItem = addForecastCard(response, nextDayTime , true)
+        // Add current weather card
+        val weatherItem = addForecastCard(response, nextDayTime, true)
         weatherItems[0] = weatherItem
         adapter.setItems(weatherItems)
     }
@@ -384,7 +387,7 @@ class MainActivity : AppCompatActivity() {
                 val forecastItem = forecastItems.optJSONObject(i)
                 if (forecastItem != null) {
                     val weatherItem = addForecastCard(forecastItem, nextDayTime)
-                    weatherItems[i+1] = weatherItem
+                    weatherItems[i + 1] = weatherItem
                 }
             }
         }
@@ -430,7 +433,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to add forecast card details
-    private fun addForecastCard(forecastItem: JSONObject, nextDayTime: Long , isNow:Boolean = false): WeatherItem {
+    private fun addForecastCard(
+        forecastItem: JSONObject,
+        nextDayTime: Long,
+        isNow: Boolean = false
+    ): WeatherItem {
         val time = forecastItem.optLong("dt")
         var weatherItem = WeatherItem("", 0, "", "")
 
@@ -443,15 +450,15 @@ class MainActivity : AppCompatActivity() {
 
             val date = Date(time * 1000L) // Convert to milliseconds
             val sdf = SimpleDateFormat("h:mm a", Locale.getDefault())
-            val formattedTime = if(isNow)  "Now" else sdf.format(date)
+            val formattedTime = if (isNow) "Now" else sdf.format(date)
             val temp = main?.optDouble("temp") ?: 0.0
 
-            weatherItem =  WeatherItem(
-                    formattedTime,
-                    getWeatherIcon(mainString),
-                    "${temp.toInt()}°C",
-                    mainString
-                )
+            weatherItem = WeatherItem(
+                formattedTime,
+                getWeatherIcon(mainString),
+                "${temp.toInt()}°C",
+                mainString
+            )
         }
         return weatherItem
     }
@@ -482,8 +489,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeBackgroundImage(main: String , sunrise: Long , sunset: Long) {
-        // get current date in milliseconds
+    private fun changeBackgroundImage(main: String, sunrise: Long, sunset: Long) {
+        // Get current time
         val currentTime = System.currentTimeMillis() / 1000
         val background: ConstraintLayout = findViewById(R.id.mainLayout)
 
@@ -533,6 +540,5 @@ class MainActivity : AppCompatActivity() {
                 locations[dataStoreLng] = longitude
             }
         }
-
     }
 }

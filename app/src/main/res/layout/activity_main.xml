@@ -38,7 +38,7 @@
                     android:textColor="@color/white"
                     android:textSize="32sp" />
 
-                <!-- Turn on location service text -->
+                <!-- Turn on location service card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/location_on_btn"
                     android:layout_width="wrap_content"
@@ -50,6 +50,7 @@
                     android:visibility="visible"
                     app:cardCornerRadius="10dp">
 
+                    <!-- Circle image view -->
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -57,6 +58,7 @@
                         android:contentDescription="@string/circle"
                         android:src="@drawable/baseline_circle_24" />
 
+                    <!-- Turn on location service text -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,14 +82,14 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-            <!-- Weather icon image view -->
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/current_weather_description"
-                android:src="@drawable/clouds" />
+                <!-- Weather icon image view -->
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/current_weather_description"
+                    android:src="@drawable/clouds" />
 
                 <!-- Date text view -->
                 <TextView
@@ -100,26 +102,26 @@
                     android:textColor="@color/white"
                     android:textSize="19sp" />
 
-            <!-- Temperature text view -->
-            <TextView
-                android:id="@+id/temp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/temp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="70sp" />
+                <!-- Temperature text view -->
+                <TextView
+                    android:id="@+id/temp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/temp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="70sp" />
 
-            <!-- Feels like temperature text view -->
-            <TextView
-                android:id="@+id/feels_like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/feels_like"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                <!-- Feels like temperature text view -->
+                <TextView
+                    android:id="@+id/feels_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feels_like"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <!-- Temperature range text view -->
                 <TextView
@@ -254,7 +256,6 @@
                                 android:contentDescription="@string/humidity_description"
                                 app:srcCompat="@drawable/humidity" />
 
-
                             <TextView
                                 android:id="@+id/humid"
                                 android:layout_width="match_parent"
@@ -274,6 +275,7 @@
                                 android:textColor="@color/white" />
 
                         </LinearLayout>
+
                     </LinearLayout>
 
                     <!-- White circle icon -->
@@ -366,6 +368,7 @@
                                 android:text="@string/sunset"
                                 android:textAlignment="center"
                                 android:textColor="@color/white" />
+
                         </LinearLayout>
 
                         <!-- Bottom Vertical Section -->
@@ -397,6 +400,7 @@
                                 android:text="@string/wind_speed"
                                 android:textAlignment="center"
                                 android:textColor="@color/white" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -485,6 +489,7 @@
             </LinearLayout>
 
         </ScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
