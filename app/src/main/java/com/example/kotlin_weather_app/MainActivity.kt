@@ -289,9 +289,14 @@ class MainActivity : AppCompatActivity() {
         cityNameText.text = getString(R.string.city, cityName)
 
         val mainData = forecastData?.optJSONObject("main")
+
         val temp = mainData?.optDouble("temp") ?: 0.0
         val tempText: TextView = findViewById(R.id.temp)
         tempText.text = getString(R.string.temp, temp.toInt())
+
+        val feelsLike = mainData?.optDouble("feels_like") ?: 0.0
+        val feelsLikeTextView: TextView = findViewById(R.id.feels_like)
+        feelsLikeTextView.text = getString(R.string.feels_like, feelsLike.toInt())
 
         val tempMax = mainData?.optDouble("temp_max") ?: 0.0
         val tempMin = mainData?.optDouble("temp_min") ?: 0.0
