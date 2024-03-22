@@ -17,7 +17,8 @@
         <!-- Scroll view to allow scrolling when the content is larger than the screen -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <!-- Main layout container -->
             <LinearLayout
