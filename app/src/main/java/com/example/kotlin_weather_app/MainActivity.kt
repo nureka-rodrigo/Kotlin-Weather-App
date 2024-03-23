@@ -70,13 +70,14 @@ class MainActivity : AppCompatActivity() {
             }
             setOnExitAnimationListener { splashScreenView ->
                 // check any of weather data is empty
-                if(weatherResponse.length() > 0 && airQualityResponse.length() > 0 && currentWeatherResponse.length() > 0) {
+                if (weatherResponse.length() > 0 && airQualityResponse.length() > 0 && currentWeatherResponse.length() > 0) {
                     handleCurrentWeatherResponse(currentWeatherResponse)
                     handleWeatherResponse(weatherResponse)
                     handleAirQualityResponse(airQualityResponse)
-                }else{
+                } else {
                     // hide swipeRefreshLayout
-                    val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+                    val swipeRefreshLayout: SwipeRefreshLayout =
+                        findViewById(R.id.swipeRefreshLayout)
                     swipeRefreshLayout.visibility = View.GONE
                     // Show error dialog
                     AlertDialog.Builder(this@MainActivity)

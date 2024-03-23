@@ -4,13 +4,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
-import android.widget.TextView
-import android.widget.Toast
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -21,10 +18,13 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class FetchDataWorker(private val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
+class FetchDataWorker(private val context: Context, workerParams: WorkerParameters) :
+    CoroutineWorker(context, workerParams) {
     private val _openWeatherMapApiAky = "668c2a5ed2549b7f50600493623ca749"
     private val prefs = applicationContext.getSharedPreferences("widgetData", Context.MODE_PRIVATE)
     override suspend fun doWork(): Result {
@@ -67,7 +67,7 @@ class TimeAndWeather : AppWidgetProvider() {
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             if (data != null) {
-                updateAppWidget(context, appWidgetManager, appWidgetId , data)
+                updateAppWidget(context, appWidgetManager, appWidgetId, data)
             }
         }
 
@@ -77,7 +77,8 @@ class TimeAndWeather : AppWidgetProvider() {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Calculate the time until the next minute
         val calendar = Calendar.getInstance().apply {
@@ -86,12 +87,12 @@ class TimeAndWeather : AppWidgetProvider() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if(alarmManager.canScheduleExactAlarms()){
+            if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setExact(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
-            }else{
+            } else {
                 alarmManager.set(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
             }
-        } else{
+        } else {
             alarmManager.setExact(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
         }
     }
@@ -146,7 +147,7 @@ internal fun updateAppWidget(
     // Create a PendingIntent for click the widget
     val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-    val mainData =  JSONObject(data).optJSONObject("main")
+    val mainData = JSONObject(data).optJSONObject("main")
 
     // Get temperature data
     val temp = mainData?.optDouble("temp") ?: 0.0
@@ -156,7 +157,7 @@ internal fun updateAppWidget(
     val weatherArray = JSONObject(data).optJSONArray("weather")
     val weatherData = weatherArray?.optJSONObject(0)
     val main = weatherData?.optString("main") ?: ""
-    views.setImageViewResource( R.id.weatherImage, getWeatherIcon(main))
+    views.setImageViewResource(R.id.weatherImage, getWeatherIcon(main))
 
     // Attach the click listener
     views.setOnClickPendingIntent(R.id.temperature, pendingIntent)

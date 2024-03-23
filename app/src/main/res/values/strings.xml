@@ -80,8 +80,11 @@
     <string name="forecast_weather_icon_description">Forecast Weather Icon</string>
     <!-- Forecast temperature placeholder -->
     <string name="forecast_temp">20</string>
-    <string name="appwidget_text">Time And Weather</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">Time and weather widget</string>
     <string name="example_time">11:01 | Sat, 23 Mar</string>
+    <string name="widget_city">%s</string>
+    <string name="widget_date">%s</string>
+    <string name="widget_temp">%1$d°ᶜ</string>
+    <string name="widget_current_weather_description">Weather icon for widget</string>
 </resources>
