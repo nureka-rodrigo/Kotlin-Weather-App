@@ -7,4 +7,9 @@
     <color name="logo_blue">#387ADF</color>
     <color name="glass_white">#30ffffff</color>
     <color name="dark_background">#222831</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
