@@ -55,7 +55,7 @@ class FetchDataWorker(private val context: Context, workerParams: WorkerParamete
 /**
  * Implementation of App Widget functionality.
  */
-class TimeAndWeather : AppWidgetProvider() {
+open class TimeAndWeather : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -82,6 +82,7 @@ class TimeAndWeather : AppWidgetProvider() {
 
         // Calculate the time until the next minute
         val calendar = Calendar.getInstance().apply {
+            add(Calendar.MINUTE, 1)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
@@ -113,55 +114,28 @@ class TimeAndWeather : AppWidgetProvider() {
     override fun onDisabled(context: Context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-}
 
-// Function to get weather icon
-private fun getWeatherIcon(main: String): Int {
-    return when (main) {
-        "Thunderstorm" -> R.drawable.thunderstorm
-        "Drizzle" -> R.drawable.drizzle
-        "Rain" -> R.drawable.rain
-        "Snow" -> R.drawable.snow
-        "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> R.drawable.mist
-        "Clear" -> R.drawable.clear
-        "Clouds" -> R.drawable.clouds
-        else -> R.drawable.clear // Default icon
-    }
-}
-
-internal fun updateAppWidget(
-    context: Context,
-    appWidgetManager: AppWidgetManager,
-    appWidgetId: Int,
-    data: String
-) {
-    // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.time_and_weather)
-    SimpleDateFormat("HH:mm | EEE, dd MMM", Locale.getDefault()).format(Date()).also {
-        views.setTextViewText(R.id.dateAndTime, it)
+    // Function to get weather icon
+    open fun getWeatherIcon(main: String): Int {
+        return when (main) {
+            "Thunderstorm" -> R.drawable.thunderstorm
+            "Drizzle" -> R.drawable.drizzle
+            "Rain" -> R.drawable.rain
+            "Snow" -> R.drawable.snow
+            "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado" -> R.drawable.mist
+            "Clear" -> R.drawable.clear
+            "Clouds" -> R.drawable.clouds
+            else -> R.drawable.clear // Default icon
+        }
     }
 
-    // Create an Intent to launch MainActivity
-    val intent = Intent(context, MainActivity::class.java)
+    // Function to update the widget
+   open fun updateAppWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        data: String
+    ) {
 
-    // Create a PendingIntent for click the widget
-    val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-    val mainData = JSONObject(data).optJSONObject("main")
-
-    // Get temperature data
-    val temp = mainData?.optDouble("temp") ?: 0.0
-    views.setTextViewText(R.id.temperature, "${temp.toInt()}°C")
-
-    // set icon
-    val weatherArray = JSONObject(data).optJSONArray("weather")
-    val weatherData = weatherArray?.optJSONObject(0)
-    val main = weatherData?.optString("main") ?: ""
-    views.setImageViewResource(R.id.weatherImage, getWeatherIcon(main))
-
-    // Attach the click listener
-    views.setOnClickPendingIntent(R.id.temperature, pendingIntent)
-
-    // Instruct the widget manager to update the widget
-    appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
 }

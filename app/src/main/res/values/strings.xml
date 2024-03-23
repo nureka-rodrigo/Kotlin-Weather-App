@@ -85,6 +85,5 @@
     <string name="example_time">11:01 | Sat, 23 Mar</string>
     <string name="widget_city">%s</string>
     <string name="widget_date">%s</string>
-    <string name="widget_temp">%1$d°ᶜ</string>
     <string name="widget_current_weather_description">Weather icon for widget</string>
 </resources>

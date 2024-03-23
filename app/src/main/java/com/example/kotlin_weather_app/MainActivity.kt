@@ -232,6 +232,7 @@ class MainActivity : AppCompatActivity() {
                     runBlocking {
                         saveJsonData(currentWeatherResponseStore, response)
                     }
+                    prefs.edit().putString("data", response.toString()).apply()
                     if (isHandle) {
                         handleCurrentWeatherResponse(response)
                     }
