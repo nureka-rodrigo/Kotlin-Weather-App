@@ -85,8 +85,8 @@
                 <!-- Weather icon image view -->
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/current_weather_description"
                     android:src="@drawable/clouds" />
@@ -107,11 +107,11 @@
                     android:id="@+id/temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+                    android:fontFamily="@font/poppins_light"
                     android:text="@string/temp"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="70sp" />
+                    android:textSize="90sp" />
 
                 <!-- Feels like temperature text view -->
                 <TextView
