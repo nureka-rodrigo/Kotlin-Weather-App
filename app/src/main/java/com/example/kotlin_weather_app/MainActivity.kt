@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
             setKeepOnScreenCondition {
                 !::weatherResponse.isInitialized || !::airQualityResponse.isInitialized || !::currentWeatherResponse.isInitialized
             }
-
             setOnExitAnimationListener { splashScreenView ->
+                // check any of weather data is empty
                 if(weatherResponse.length() > 0 && airQualityResponse.length() > 0 && currentWeatherResponse.length() > 0) {
                     handleCurrentWeatherResponse(currentWeatherResponse)
                     handleWeatherResponse(weatherResponse)
@@ -217,7 +217,11 @@ class MainActivity : AppCompatActivity() {
 
     // Function to fetch current weather data
     private fun fetchCurrentWeatherData(latitude: Double, longitude: Double, isHandle: Boolean) {
+        val prefs = applicationContext.getSharedPreferences("widgetData", Context.MODE_PRIVATE)
         if (latitude != 0.0 && longitude != 0.0) {
+            prefs.edit().putString("latitude", latitude.toString()).apply()
+            prefs.edit().putString("longitude", longitude.toString()).apply()
+
             val url =
                 "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$_openWeatherMapApiAky"
 

@@ -52,8 +52,9 @@
 
                     <!-- Circle image view -->
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginHorizontal="5dp"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/circle"
                         android:src="@drawable/baseline_circle_24" />
@@ -62,8 +63,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
                         android:paddingHorizontal="8dp"
+                        android:layout_marginStart="10dp"
                         android:paddingVertical="3dp"
                         android:text="@string/turn_on_location_service"
                         android:textColor="@color/white"
@@ -107,7 +108,7 @@
                     android:id="@+id/temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_light"
+                    android:fontFamily="@font/abeezee"
                     android:text="@string/temp"
                     android:textAlignment="center"
                     android:textColor="@color/white"
