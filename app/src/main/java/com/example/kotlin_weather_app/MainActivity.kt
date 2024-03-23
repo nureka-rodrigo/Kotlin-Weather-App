@@ -188,12 +188,12 @@ class MainActivity : AppCompatActivity() {
                 }
         } else {
             turnOnLocationBtn.visibility = View.VISIBLE
-            // set saved location from dataStore and fetch weather data
+            // Set saved location from dataStore
             getLocationViaDataStore()
         }
     }
 
-    // get location via dataStore
+    // Function to get location from dataStore
     private fun getLocationViaDataStore() {
         val lat: Flow<Double> =
             dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { _ ->
-                    // set saved weather data from dataStore
+                    // Set saved weather data from dataStore
                     setWeatherDataFromDataStore(currentWeatherResponseStore)
                 })
 
@@ -265,7 +265,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { _ ->
-                    // set saved weather data from dataStore
+                    // Set saved weather data from dataStore
                     setWeatherDataFromDataStore(weatherResponseStore)
                 })
 
@@ -296,7 +296,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { _ ->
-                    // set saved weather data from dataStore
+                    // Set saved weather data from dataStore
                     setWeatherDataFromDataStore(airQualityResponseStore)
                 })
 
@@ -412,7 +412,7 @@ class MainActivity : AppCompatActivity() {
         val currentTime = System.currentTimeMillis() / 1000 // Current Unix timestamp
         val nextDayTime = currentTime + 86400 // Unix timestamp for the same time tomorrow
 
-        // change background color gradient
+        // Change background image based on weather
         changeBackgroundImage(main, sunriseTimestamp, sunsetTimestamp)
 
         // Add current weather card
@@ -534,6 +534,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Function to change background image based on weather
     private fun changeBackgroundImage(main: String, sunrise: Long, sunset: Long) {
         // Get current time
         val currentTime = System.currentTimeMillis() / 1000
@@ -587,7 +588,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // save weather json data to dataStore
+    // Function to save JSON data to dataStore
     private suspend fun saveJsonData(key: Preferences.Key<String>, data: JSONObject) {
         dataStore.edit { locations ->
             locations[key] = data.toString()

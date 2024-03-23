@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.RemoteViews
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -16,11 +15,7 @@ import androidx.work.WorkerParameters
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONObject
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class FetchDataWorker(private val context: Context, workerParams: WorkerParameters) :
@@ -31,6 +26,7 @@ class FetchDataWorker(private val context: Context, workerParams: WorkerParamete
         val latitude = prefs.getString("latitude", "51.5072")
         val longitude = prefs.getString("longitude", "-0.1276")
 
+        // Check if the latitude and longitude are not null and not 0
         if (latitude != null && longitude != null) {
             if (latitude.toDouble() != 0.0 && longitude.toDouble() != 0.0) {
                 val url =
@@ -87,6 +83,7 @@ open class TimeAndWeather : AppWidgetProvider() {
             set(Calendar.MILLISECOND, 0)
         }
 
+        // Schedule the alarm
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setExact(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
@@ -130,7 +127,7 @@ open class TimeAndWeather : AppWidgetProvider() {
     }
 
     // Function to update the widget
-   open fun updateAppWidget(
+    open fun updateAppWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,

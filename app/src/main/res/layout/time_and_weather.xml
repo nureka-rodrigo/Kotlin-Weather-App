@@ -8,10 +8,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <!-- date and time -->
+        <!-- Date and time -->
         <TextView
             android:id="@+id/dateAndTime"
             android:layout_width="wrap_content"
@@ -19,8 +19,8 @@
             android:text="@string/example_time"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="27sp" />
+            android:textSize="27sp"
+            android:textStyle="bold" />
 
         <!-- Weather icon image view -->
         <ImageView
@@ -32,7 +32,7 @@
             android:contentDescription="@string/current_weather_description"
             android:src="@drawable/clouds" />
 
-        <!-- date and time -->
+        <!-- Date and time -->
         <TextView
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
@@ -42,5 +42,7 @@
             android:textColor="@color/white"
             android:textSize="27sp"
             android:textStyle="bold" />
+
     </LinearLayout>
+
 </RelativeLayout>

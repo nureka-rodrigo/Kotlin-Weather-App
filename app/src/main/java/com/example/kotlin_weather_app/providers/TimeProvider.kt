@@ -10,8 +10,8 @@ import com.example.kotlin_weather_app.R
 import com.example.kotlin_weather_app.TimeAndWeather
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Date
+import java.util.Locale
 
 class TimeProvider : TimeAndWeather() {
 
@@ -32,7 +32,8 @@ class TimeProvider : TimeAndWeather() {
         val intent = Intent(context, MainActivity::class.java)
 
         // Create a PendingIntent for click the widget
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         // Get main data
         val mainData = JSONObject(data).optJSONObject("main")

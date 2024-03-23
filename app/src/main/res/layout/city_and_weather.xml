@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:id="@+id/widget_container"
     android:padding="8dp">
 
     <LinearLayout
@@ -12,6 +12,7 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
+        <!-- City name -->
         <TextView
             android:id="@+id/widget_city"
             android:layout_width="match_parent"
@@ -21,6 +22,7 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <!-- Date and time -->
         <TextView
             android:id="@+id/widget_date"
             android:layout_width="match_parent"
@@ -30,6 +32,7 @@
             android:textColor="@color/white"
             android:textSize="11sp" />
 
+        <!-- Temperature -->
         <TextView
             android:id="@+id/widget_temp"
             android:layout_width="match_parent"
@@ -41,6 +44,7 @@
 
     </LinearLayout>
 
+    <!-- Weather icon -->
     <ImageView
         android:id="@+id/widget_current_weather_description"
         android:layout_width="75dp"

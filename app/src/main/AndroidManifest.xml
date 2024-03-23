@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- permissions -->
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- App Info -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SplashTheme"
         tools:targetApi="31">
+
         <receiver
             android:name=".providers.CityProvider"
             android:exported="false">
@@ -30,6 +32,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/city_and_weather_info" />
         </receiver>
+
         <receiver
             android:name=".providers.TimeProvider"
             android:exported="false">
@@ -47,7 +50,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
