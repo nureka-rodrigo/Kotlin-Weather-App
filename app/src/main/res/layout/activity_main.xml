@@ -27,61 +27,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- search -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraint1"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/gradient_background_banner"
-                    android:backgroundTint="@color/glass_white">
-
-                    <LinearLayout
-                        android:layout_width="361dp"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="3dp"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="8dp">
-
-                        <EditText
-                            android:id="@+id/enteredLocation"
-                            android:layout_width="220dp"
-                            android:layout_height="42dp"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="text"
-                            android:selectAllOnFocus="false"
-                            android:shadowColor="#FFFFFF"
-                            android:singleLine="false"
-                            android:backgroundTint="@android:color/white"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@android:color/white"
-                            android:drawableTint="@android:color/white"
-                            android:textColorHighlight="#FFFFFF"
-                            android:textColorLink="#FFFFFF"
-                            android:tooltipText="Enter Search Location " />
-
-                        <Button
-                            android:id="@+id/sch"
-                            android:layout_width="40dp"
-                            android:layout_height="42dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/round_button_bg"
-                            app:icon="@drawable/magnifying_glass_solid" />
-
-                        <Button
-                            android:id="@+id/crrloc"
-                            android:layout_width="30dp"
-                            android:layout_height="42dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/round_button_bg"
-                            app:icon="@drawable/location_crosshairs_solid__6_" />
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <!-- City name text view -->
                 <TextView
                     android:id="@+id/cityName"
@@ -109,8 +54,8 @@
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:layout_marginHorizontal="5dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="5dp"
                         android:contentDescription="@string/circle"
                         android:src="@drawable/baseline_circle_24" />
 
@@ -118,8 +63,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="8dp"
                         android:layout_marginStart="10dp"
+                        android:paddingHorizontal="8dp"
                         android:paddingVertical="3dp"
                         android:text="@string/turn_on_location_service"
                         android:textColor="@color/white"
