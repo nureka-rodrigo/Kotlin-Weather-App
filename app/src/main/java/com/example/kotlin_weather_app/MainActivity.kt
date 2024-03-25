@@ -40,6 +40,11 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.widget.Button
+import android.widget.EditText
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import org.json.JSONArray
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "locations")
 
@@ -49,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weatherResponse: JSONObject
     private lateinit var currentWeatherResponse: JSONObject
     private lateinit var airQualityResponse: JSONObject
+    private lateinit var currentCityResponse: JSONObject
     private val dataStoreLat = doublePreferencesKey("latitude")
     private val dataStoreLng = doublePreferencesKey("longitude")
     private val weatherResponseStore = stringPreferencesKey("weatherResponse")
@@ -116,6 +122,30 @@ class MainActivity : AppCompatActivity() {
         turnOnLocationBtn.setOnClickListener {
             startActivity(android.content.Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         }
+
+        //location Search part
+        val enteredLocation: EditText
+        val sch: Button
+
+        enteredLocation = findViewById(R.id.enteredLocation)
+        sch = findViewById(R.id.sch)
+
+        sch.setOnClickListener {
+            val searchText = enteredLocation.text.toString().trim()
+            if (searchText.isNotEmpty()) {
+                fetchSearchedLocation(searchText,true)
+            } else {
+                Toast.makeText(this, "Please enter a city name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        //back to current location
+        val crrloc: Button
+        crrloc = findViewById(R.id.crrloc)
+        crrloc.setOnClickListener {
+
+        }
+
     }
 
     // Function to check if location permission is granted
@@ -188,12 +218,12 @@ class MainActivity : AppCompatActivity() {
                 }
         } else {
             turnOnLocationBtn.visibility = View.VISIBLE
-            // Set saved location from dataStore
+            // set saved location from dataStore and fetch weather data
             getLocationViaDataStore()
         }
     }
 
-    // Function to get location from dataStore
+    // get location via dataStore
     private fun getLocationViaDataStore() {
         val lat: Flow<Double> =
             dataStore.data.map { preferences -> preferences[dataStoreLat] ?: 51.5072 }
@@ -216,6 +246,16 @@ class MainActivity : AppCompatActivity() {
         fetchAirQualityData(latitude, longitude, true)
     }
 
+    // Function to call data fetch functions
+    private fun fetchDataFromSearch(lat: Double, lon: Double) {
+        turnOnLocationBtn.visibility = View.GONE
+        val latitude = lat
+        val longitude = lon
+        fetchCurrentWeatherData(latitude, longitude, true)
+        fetchWeatherData(latitude, longitude, true)
+        fetchAirQualityData(latitude, longitude, true)
+    }
+
     // Function to fetch current weather data
     private fun fetchCurrentWeatherData(latitude: Double, longitude: Double, isHandle: Boolean) {
         val prefs = applicationContext.getSharedPreferences("widgetData", Context.MODE_PRIVATE)
@@ -232,13 +272,12 @@ class MainActivity : AppCompatActivity() {
                     runBlocking {
                         saveJsonData(currentWeatherResponseStore, response)
                     }
-                    prefs.edit().putString("data", response.toString()).apply()
                     if (isHandle) {
                         handleCurrentWeatherResponse(response)
                     }
                 },
                 { _ ->
-                    // Set saved weather data from dataStore
+                    // set saved weather data from dataStore
                     setWeatherDataFromDataStore(currentWeatherResponseStore)
                 })
 
@@ -265,7 +304,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { _ ->
-                    // Set saved weather data from dataStore
+                    // set saved weather data from dataStore
                     setWeatherDataFromDataStore(weatherResponseStore)
                 })
 
@@ -296,7 +335,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { _ ->
-                    // Set saved weather data from dataStore
+                    // set saved weather data from dataStore
                     setWeatherDataFromDataStore(airQualityResponseStore)
                 })
 
@@ -307,7 +346,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to show last update time
-    private fun lastUpdate() {
+     private fun lastUpdate() {
         val lastUpdatedTextView: TextView = findViewById(R.id.lastUpdatedTextView)
         val currentTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
         lastUpdatedTextView.text = getString(R.string.last_updated, currentTime)
@@ -412,7 +451,7 @@ class MainActivity : AppCompatActivity() {
         val currentTime = System.currentTimeMillis() / 1000 // Current Unix timestamp
         val nextDayTime = currentTime + 86400 // Unix timestamp for the same time tomorrow
 
-        // Change background image based on weather
+        // change background color gradient
         changeBackgroundImage(main, sunriseTimestamp, sunsetTimestamp)
 
         // Add current weather card
@@ -534,7 +573,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Function to change background image based on weather
     private fun changeBackgroundImage(main: String, sunrise: Long, sunset: Long) {
         // Get current time
         val currentTime = System.currentTimeMillis() / 1000
@@ -588,7 +626,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Function to save JSON data to dataStore
+    // save weather json data to dataStore
     private suspend fun saveJsonData(key: Preferences.Key<String>, data: JSONObject) {
         dataStore.edit { locations ->
             locations[key] = data.toString()
@@ -608,5 +646,75 @@ class MainActivity : AppCompatActivity() {
                 airQualityResponseStore -> airQualityResponse = json.first()
             }
         }
+    }
+
+    //Search Location
+    private fun geocodeLocationz(locationName: String) {
+        val url = "http://api.openweathermap.org/geo/1.0/direct?q=$locationName&limit=5&appid=$_openWeatherMapApiAky"
+
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        val request = JsonObjectRequest(Request.Method.GET, url, null,
+            Response.Listener { response ->
+                if (response.has("results")) {
+                    val results = response.getJSONArray("results")
+                    if (results.length() > 0) {
+                        val firstResult = results.getJSONObject(0)
+                        val geometry = firstResult.getJSONObject("geometry")
+                        val location = geometry.getJSONObject("location")
+                        val latitude = location.getDouble("lat")
+                        val longitude = location.getDouble("lng")
+                        // Use the retrieved latitude and longitude to fetch weather data
+                        Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Error fetching location data", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, "Error: $error", Toast.LENGTH_SHORT).show()
+            })
+        queue.add(request)
+    }
+
+    private fun fetchSearchedLocation(locationName: String ,isHandle: Boolean) {
+
+        if (locationName != null) {
+            val url ="http://api.openweathermap.org/geo/1.0/direct?q=$locationName&limit=5&appid=$_openWeatherMapApiAky"
+
+            val request = JsonObjectRequest(Request.Method.GET, url, null,
+                { response ->
+                    currentCityResponse = response
+                    if (isHandle) {
+                        handleFetchSearchedLocation(response)
+                    }
+                },
+                { _ ->
+
+                })
+
+            // Add the request to the RequestQueue.
+            Volley.newRequestQueue(this).add(request)
+        } else {
+            Toast.makeText(this, "Please Enter a City Name", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun handleFetchSearchedLocation(response: JSONObject) {
+
+        val schLocation: JSONArray? = response.optJSONArray("schLocation")
+
+        if (schLocation != null) {
+            val locationObject = schLocation.getJSONObject(0)
+            val lat = locationObject.getDouble("lat")
+            val lon = locationObject.getDouble("lon")
+            fetchDataFromSearch(lat,lon)
+
+            Toast.makeText(this, "yaaaaaaa", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
